@@ -34,5 +34,6 @@ hs_err_pid*
 gameclub-lw-main/target/*.*
 gameclub-lw-resources/target/*.*
 
-gameclub-lw-main/gameclub-lw-main.iml
+mc-scaffold.iml
+gameclub-lw-mian/gameclub-lw-mian.iml
 gameclub-lw-resources/gameclub-lw-resources.iml
