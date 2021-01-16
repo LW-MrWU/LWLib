@@ -1,8 +1,6 @@
-package com.gameclub.lw.basic.service;
+package com.gameclub.lw.basic.service.base;
 
 import com.gameclub.lw.utlis.dozer.DozerHelper;
-import com.gameclub.lw.utlis.jackson.JsonMapper;
-import com.gameclub.lw.utlis.jackson.JsonMapperFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class AbstractNoTransactionalService {
 
     protected final Logger log = LoggerFactory.getLogger(this.getClass());
-
-    protected final JsonMapper jsonMapper = JsonMapperFactory.getJsonMapper();
 
     @Autowired
     protected DozerHelper dozerHelper;

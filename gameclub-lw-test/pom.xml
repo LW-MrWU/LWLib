@@ -17,5 +17,10 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.gameclub.lw</groupId>
+            <artifactId>gameclub-lw-service</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
