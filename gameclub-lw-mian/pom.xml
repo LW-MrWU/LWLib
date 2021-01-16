@@ -11,5 +11,10 @@
 
     <artifactId>gameclub-lw-mian</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>gameclub-lw-service</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -18,25 +18,81 @@
     <modules>
         <module>gameclub-lw-mian</module>
         <module>gameclub-lw-resources</module>
+        <module>gameclub-lw-service</module>
+        <module>gameclub-lw-utils</module>
     </modules>
 
     <properties>
+        <!-- associate begin-->
         <java.version>1.8</java.version>
-        <druid.version>1.1.0</druid.version>
+        <common.lang.version>2.6</common.lang.version>
+        <spring-amqp.version>1.5.5.RELEASE</spring-amqp.version>
         <dozer.version>5.5.1</dozer.version>
+        <ojdbc.version>11.2.0.3</ojdbc.version>
+
+        <mysql.version>8.0.11</mysql.version>
+        <druid.version>1.1.0</druid.version>
+
+        <!-- log -->
+        <flume.version>1.8.0</flume.version>
+        <logback.ext.version>0.1.4</logback.ext.version>
+        <avro.version>1.7.6</avro.version>
+
+        <poi.version>3.10.1</poi.version>
+
+        <spring.amqp.version>2.3.4</spring.amqp.version>
+        <servlet.api.version>2.5</servlet.api.version>
+        <slf4j.log4j12.version>1.7.30</slf4j.log4j12.version>
+        <log4j.version>1.2.17</log4j.version>
+        <guava.version>30.1-jre</guava.version>
+
+        <!-- swagger begin-->
+        <swagger.version>2.7.0</swagger.version>
+        <!-- cat -->
+        <cat.version>1.7.1</cat.version>
+
+        <!-- hutool -->
+        <hutool.version>3.2.1</hutool.version>
+        <guava.version>16.0.1</guava.version>
+
+        <!-- test begin-->
+        <jpopulator.version>1.0.1</jpopulator.version>
+        <dbunit.version>2.5.4</dbunit.version>
+        <!-- test end-->
+
+        <bootstrap.version>3.3.7</bootstrap.version>
+        <spring-ldap.version>2.3.2.RELEASE</spring-ldap.version>
+        <spring.jms.version>4.3.11.RELEASE</spring.jms.version>
+        <google.kaptcha.version>2.3.2</google.kaptcha.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!--项目-->
+            <!-- project begin-->
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>gameclub-lw-mian</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>gameclub-lw-resources</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>gameclub-lw-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>gameclub-lw-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!-- project end-->
 
-
-            <!--springboot-->
+            <!-- associate begin-->
+            <!--druid-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
@@ -57,6 +113,33 @@
                 <version>RELEASE</version>
             </dependency>
 
+            <!--pagehelper-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>RELEASE</version>
+            </dependency>
+
+            <!--oracle-->
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc6</artifactId>
+                <version>${ojdbc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <!--commons-->
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${common.lang.version}</version>
+            </dependency>
+
             <!-- dozer begin -->
             <dependency>
                 <groupId>net.sf.dozer</groupId>
@@ -70,6 +153,151 @@
             </dependency>
             <!-- dozer end -->
 
+            <!-- Optional, for bootstrap -->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>{bootstrap.version}</version>
+            </dependency>
+
+            <!-- POI -->
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.poi</groupId>
+                <artifactId>poi-ooxml</artifactId>
+                <version>${poi.version}</version>
+            </dependency>
+            <!--  POI end-->
+
+            <!-- logger platform begin-->
+            <dependency>
+                <groupId>org.apache.flume</groupId>
+                <artifactId>flume-ng-sdk</artifactId>
+                <version>${flume.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-core-asl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-mapper-asl</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.logback-extensions</groupId>
+                <artifactId>logback-ext-spring</artifactId>
+                <version>${logback.ext.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.avro</groupId>
+                <artifactId>avro</artifactId>
+                <version>${avro.version}</version>
+            </dependency>
+            <!-- logger platform end-->
+
+            <!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-amqp -->
+            <dependency>
+                <groupId>org.springframework.amqp</groupId>
+                <artifactId>spring-amqp</artifactId>
+                <version>${spring.amqp.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet.api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.log4j12.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- 3rd begin-->
+            <!-- swagger begin-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.fasterxml</groupId>
+                        <artifactId>classmate</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
+                <version>${swagger.version}</version>
+            </dependency>
+            <!--  Swagger end-->
+
+            <!-- cat -->
+            <dependency>
+                <groupId>com.dianping.cat</groupId>
+                <artifactId>cat-client</artifactId>
+                <version>${cat.version}</version>
+            </dependency>
+
+            <!-- hutool -->
+            <dependency>
+                <groupId>com.xiaoleilu</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <!-- 3rd end-->
+
+            <!-- test begin-->
+            <dependency>
+                <groupId>io.github.benas</groupId>
+                <artifactId>jpopulator</artifactId>
+                <version>${jpopulator.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>commons.lang</artifactId>
+                        <groupId>commons-lang</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <dependency>
+                <groupId>org.dbunit</groupId>
+                <artifactId>dbunit</artifactId>
+                <version>${dbunit.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
