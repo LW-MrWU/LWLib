@@ -20,6 +20,7 @@
         <module>gameclub-lw-resources</module>
         <module>gameclub-lw-utils</module>
         <module>gameclub-lw-test</module>
+        <module>gameclub-lw-model</module>
     </modules>
 
     <properties>
@@ -28,27 +29,13 @@
         <!--<bukkit.version>1.16.5-R0.1-SNAPSHOT</bukkit.version>-->
         <java.version>1.8</java.version>
         <common.lang.version>2.6</common.lang.version>
-        <spring-amqp.version>1.5.5.RELEASE</spring-amqp.version>
-        <dozer.version>5.5.1</dozer.version>
-        <ojdbc.version>11.2.0.3</ojdbc.version>
-
-        <mysql.version>8.0.11</mysql.version>
-        <druid.version>1.1.0</druid.version>
-
-        <!-- log -->
-        <logback.ext.version>0.1.4</logback.ext.version>
-        <avro.version>1.7.6</avro.version>
-
-        <spring.amqp.version>2.3.4</spring.amqp.version>
-        <servlet.api.version>2.5</servlet.api.version>
-        <slf4j.log4j12.version>1.7.30</slf4j.log4j12.version>
         <log4j.version>1.2.17</log4j.version>
-
         <!-- test begin-->
         <junit.version>4.12</junit.version>
         <!-- test end-->
-
-        <bootstrap.version>3.3.7</bootstrap.version>
+        <dozer.version>5.5.1</dozer.version>
+        <jackson.version>2.12.1</jackson.version>
+        <spring.beans.version>5.3.3</spring.beans.version>
     </properties>
 
     <dependencyManagement>
@@ -91,48 +78,6 @@
                 <scope>provided</scope>
             </dependency>-->
 
-            <!-- associate begin-->
-            <!--druid-->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
-                <version>${druid.version}</version>
-            </dependency>
-
-            <!--mybatis-->
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-                <version>RELEASE</version>
-            </dependency>
-
-            <!--mapper-->
-            <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>RELEASE</version>
-            </dependency>
-
-            <!--pagehelper-->
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>RELEASE</version>
-            </dependency>
-
-            <!--oracle-->
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc6</artifactId>
-                <version>${ojdbc.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
-
             <!--commons-->
             <dependency>
                 <groupId>commons-lang</groupId>
@@ -140,59 +85,6 @@
                 <version>${common.lang.version}</version>
             </dependency>
 
-            <!-- dozer begin -->
-            <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer</artifactId>
-                <version>${dozer.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer-spring</artifactId>
-                <version>${dozer.version}</version>
-            </dependency>
-            <!-- dozer end -->
-
-            <!-- Optional, for bootstrap -->
-            <dependency>
-                <groupId>org.webjars</groupId>
-                <artifactId>bootstrap</artifactId>
-                <version>{bootstrap.version}</version>
-            </dependency>
-
-            <!-- logger platform begin-->
-            <dependency>
-                <groupId>org.logback-extensions</groupId>
-                <artifactId>logback-ext-spring</artifactId>
-                <version>${logback.ext.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.avro</groupId>
-                <artifactId>avro</artifactId>
-                <version>${avro.version}</version>
-            </dependency>
-            <!-- logger platform end-->
-
-            <!-- https://mvnrepository.com/artifact/org.springframework.amqp/spring-amqp -->
-            <dependency>
-                <groupId>org.springframework.amqp</groupId>
-                <artifactId>spring-amqp</artifactId>
-                <version>${spring.amqp.version}</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>${servlet.api.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-log4j12</artifactId>
-                <version>${slf4j.log4j12.version}</version>
-                <scope>test</scope>
-            </dependency>
             <!-- https://mvnrepository.com/artifact/log4j/log4j -->
             <dependency>
                 <groupId>log4j</groupId>
@@ -204,6 +96,34 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.beans.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,4 +1,4 @@
-package com.gameclub.lw.basic.service.plugin;
+package com.gameclub.service.basic.service.plugin;
 
 /**
  * @author lw

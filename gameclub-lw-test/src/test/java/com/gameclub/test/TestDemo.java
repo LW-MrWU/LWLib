@@ -1,6 +1,6 @@
-package com.gameclub.lw;
+package com.gameclub.test;
 
-import com.gameclub.lw.basic.service.base.AbstractNoTransactionalService;
+import com.gameclub.utils.base.AbstractNoTransactionalService;
 import org.junit.Test;
 
 /**

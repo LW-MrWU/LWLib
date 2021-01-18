@@ -9,19 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gameclub-lw-test</artifactId>
+    <artifactId>gameclub-lw-model</artifactId>
 
-    <dependencies>
 
-        <dependency>
-            <groupId>com.gameclub.lw</groupId>
-            <artifactId>gameclub-lw-service</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-    </dependencies>
 </project>

@@ -1,6 +1,6 @@
-package com.gameclub.lw.basic.service.plugin;
+package com.gameclub.service.basic.service.plugin;
 
-import com.gameclub.lw.basic.service.log.BaseLogService;
+import com.gameclub.service.basic.service.log.BaseLogService;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -51,5 +51,12 @@ public abstract class BasePlugin extends JavaPlugin {
         baseLogService = new BaseLogService(this);
     }
 
+    /**
+     * TODO
+     * @author bg392277
+     * @date 2021/1/18 11:05
+     * @param []
+     * @return boolean
+     */
     public abstract boolean enable();
 }

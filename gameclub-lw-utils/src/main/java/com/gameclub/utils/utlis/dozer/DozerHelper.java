@@ -1,4 +1,4 @@
-package com.gameclub.lw.utlis.dozer;
+package com.gameclub.utils.utlis.dozer;
 
 import org.dozer.Mapper;
 
@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author admin
+ * @author lw
+ * @date 创建时间 2021/1/18 13:58
+ * @description TODO
  */
 public class DozerHelper {
-
     private Mapper mapper;
 
     public Mapper getMapper() {
@@ -69,4 +70,3 @@ public class DozerHelper {
         }
     }
 }
-

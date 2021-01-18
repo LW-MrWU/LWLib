@@ -1,6 +1,6 @@
-package com.gameclub.lw.basic.service.config;
+package com.gameclub.service.basic.service.config;
 
-import com.gameclub.lw.basic.service.plugin.BasePlugin;
+import com.gameclub.service.basic.service.plugin.BasePlugin;
 
 /**
  * @author lw
