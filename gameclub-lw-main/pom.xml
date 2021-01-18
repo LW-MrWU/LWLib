@@ -9,7 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gameclub-lw-model</artifactId>
+    <artifactId>gameclub-lw-main</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+        </dependency>
+
+    </dependencies>
 
 
 </project>

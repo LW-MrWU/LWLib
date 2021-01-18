@@ -32,15 +32,13 @@ hs_err_pid*
 .idea/vcs.xml
 .idea/*
 
-gameclub-lw-service/target/*
+gameclub-lw-main/target/*
 gameclub-lw-resources/target/*
 gameclub-lw-utils/target/*
 gameclub-lw-test/target/*
-gameclub-lw-model/target/*
 
 mc-scaffold.iml
-gameclub-lw-service/gameclub-lw-service.iml
+gameclub-lw-main/gameclub-lw-main.iml
 gameclub-lw-resources/gameclub-lw-resources.iml
 gameclub-lw-utils/gameclub-lw-utils.iml
 gameclub-lw-test/gameclub-lw-test.iml
-gameclub-lw-model/gameclub-lw-model.iml

@@ -8,7 +8,7 @@ package com.gameclub.service.basic.service.plugin;
 public class OnEnablePlugin extends BasePlugin {
     @Override
     public boolean enable() {
-        getBaseLogService().info("成功加载lw mc基础脚手架");
+        getBaseLogService().info("$a成功加载 LWMcScaffold");
         return true;
     }
 }
