@@ -11,28 +11,25 @@ import com.gameclub.model.language.BaseLanguageEnum;
 public class MainPlugin extends BasePlugin {
     @Override
     public boolean enable() {
-        //初始化配置
+        //初始化配置文件
         initConfig();
         //成功加载提示
-        String successMsg = getBaseUtilsService().translateColorCodes("&a成功加载 LWMcScaffold");
-        getBaseLogService().info(successMsg);
+        getBaseLogService().info("&a成功加载 LWMcScaffold");
 
-        //测试下
-        initTest();
         return true;
     }
 
+    /**
+     * 初始化配置文件
+     * @author lw
+     * @date 2021/1/19 14:11
+     * @param []
+     * @return void
+     */
     private void initConfig(){
+        //语言配置文件
         BaseLanguageConfig baseLanguageConfig = new BaseLanguageConfig(this);
         getBaseConfigService().registerConfig(baseLanguageConfig);
     }
 
-    private void initTest(){
-        BaseLanguageEnum errora = BaseLanguageEnum.COMMAND_ARGS_ERROR;
-        BaseLanguageEnum noPer = BaseLanguageEnum.COMMAND_PERMISSIONDENIEDMESSAGE;
-        String error = getBaseLanguageService().getLanguage(errora.name(), errora.getValue());
-        String a = getBaseLanguageService().getLanguage(noPer.name(), noPer.getValue(), "啥呀");
-        getBaseLogService().warning("error lang: "+error);
-        getBaseLogService().warning("a: "+a);
-    }
 }

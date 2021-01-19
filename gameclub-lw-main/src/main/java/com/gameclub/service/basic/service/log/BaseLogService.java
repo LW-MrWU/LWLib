@@ -29,7 +29,8 @@ public class BaseLogService {
      * @return void
      */
     public void info(String log){
-        this.basePlugin.getLogger().info(log);
+        String reLog = this.basePlugin.getBaseUtilsService().translateColorCodes(log);
+        this.basePlugin.getLogger().info(reLog);
     }
 
     /**
@@ -40,6 +41,7 @@ public class BaseLogService {
      * @return void
      */
     public void warning(String log){
-        this.basePlugin.getLogger().warning(log);
+        String reLog = this.basePlugin.getBaseUtilsService().translateColorCodes(log);
+        this.basePlugin.getLogger().warning(reLog);
     }
 }

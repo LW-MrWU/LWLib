@@ -9,5 +9,6 @@ version: 1.0
 api-version: 1.13
 
 load: startup
+database: false
 usage:
-  property: 无权操作
+  property: error undeclared

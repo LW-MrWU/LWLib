@@ -85,4 +85,27 @@ public class BaseConfigService {
         }
         return tempresult;
     }
+
+    /**
+     * 根据key查找指定配置文件信息
+     * @author lw
+     * @date 2021/1/19 14:36
+     * @param [fileName 文件名, key 键, defualt 默认值, prms 替换信息]
+     * @return java.lang.String
+     */
+    public String getMsgByConfig(String fileName, String key,String defualt,String ...prms) {
+        BaseConfig config = getConfig(fileName);
+
+        String msg = null;
+        if(config!=null) {
+            msg = config.getConfig().getString(key, defualt);
+            if(msg==null) {
+                msg = defualt;
+            }
+        }else {
+            msg = defualt;
+        }
+        msg = this.basePlugin.getBaseUtilsService().substitutionPrms(msg, prms);
+        return msg;
+    }
 }

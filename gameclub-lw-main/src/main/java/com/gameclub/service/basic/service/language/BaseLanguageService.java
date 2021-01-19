@@ -24,24 +24,6 @@ public class BaseLanguageService {
     }
 
     /**
-     * 返回字符串
-     * @author lw
-     * @date 2021/1/18 17:32
-     * @param [str 需要替换的字符串, prms 需要填充的字符串]
-     * @return java.lang.String
-     */
-    public String getString(String str, String... prms) {
-        String tempString = str;
-        if (tempString != null) {
-            for (int i = 0; i < prms.length; i++) {
-                String holder = "{" + i + "}";
-                tempString = tempString.replace(holder, String.valueOf(prms[i]));
-            }
-        }
-        return tempString;
-    }
-
-    /**
      * 返回语言配置
      * @author lw
      * @date 2021/1/18 17:32
@@ -60,9 +42,8 @@ public class BaseLanguageService {
         }else {
             language = defualt;
         }
-        language = getString(language, prms);
-        String reLanguage = this.basePlugin.getBaseUtilsService().translateColorCodes(language);
-        return reLanguage;
+        language = this.basePlugin.getBaseUtilsService().substitutionPrms(language, prms);
+        return language;
     }
 
 }

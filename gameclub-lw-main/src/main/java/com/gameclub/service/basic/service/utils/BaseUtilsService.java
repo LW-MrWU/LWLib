@@ -33,4 +33,23 @@ public class BaseUtilsService {
         String newStr = ChatColor.translateAlternateColorCodes('&', msg);
         return newStr;
     }
+
+    /**
+     * 字符替换 {i}替换
+     * @author lw
+     * @date 2021/1/18 17:32
+     * @param [str 需要替换的字符串, prms 需要填充的字符串]
+     * @return java.lang.String
+     */
+    public String substitutionPrms(String str, String... prms) {
+        String tempString = str;
+        if (tempString != null) {
+            for (int i = 0; i < prms.length; i++) {
+                String holder = "{" + i + "}";
+                tempString = tempString.replace(holder, String.valueOf(prms[i]));
+            }
+        }
+        String reTempString = this.basePlugin.getBaseUtilsService().translateColorCodes(tempString);
+        return reTempString;
+    }
 }
