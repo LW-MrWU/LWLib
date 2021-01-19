@@ -1,7 +1,6 @@
 package com.gameclub.service.basic.service.message;
 
 import com.gameclub.service.basic.service.plugin.BasePlugin;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -44,7 +43,7 @@ public class BaseMessageService {
      * @return void
      */
     public void sendMessage(CommandSender commandSender,String message) {
-        String remessage = ChatColor.translateAlternateColorCodes('&', message);
+        String remessage = this.basePlugin.getBaseUtilsService().translateColorCodes(message);
         commandSender.sendMessage(remessage);
     }
 }

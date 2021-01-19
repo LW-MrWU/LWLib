@@ -61,7 +61,8 @@ public class BaseLanguageService {
             language = defualt;
         }
         language = getString(language, prms);
-        return language;
+        String reLanguage = this.basePlugin.getBaseUtilsService().translateColorCodes(language);
+        return reLanguage;
     }
 
 }

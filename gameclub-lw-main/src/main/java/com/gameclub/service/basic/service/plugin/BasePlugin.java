@@ -1,10 +1,10 @@
 package com.gameclub.service.basic.service.plugin;
 
-import com.gameclub.model.config.BaseLanguageConfig;
 import com.gameclub.service.basic.service.config.BaseConfigService;
 import com.gameclub.service.basic.service.language.BaseLanguageService;
 import com.gameclub.service.basic.service.log.BaseLogService;
 import com.gameclub.service.basic.service.message.BaseMessageService;
+import com.gameclub.service.basic.service.utils.BaseUtilsService;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -21,6 +21,8 @@ public abstract class BasePlugin extends JavaPlugin {
     private BaseLanguageService baseLanguageService;
 
     private BaseMessageService baseMessageService;
+
+    private BaseUtilsService baseUtilsService;
 
     /**
      * 基础日志服务
@@ -67,6 +69,17 @@ public abstract class BasePlugin extends JavaPlugin {
     }
 
     /**
+     * 基础公共服务
+     * @author lw
+     * @date 2021/1/19 14:03
+     * @param []
+     * @return com.gameclub.service.basic.service.utils.BaseUtilsService
+     */
+    public BaseUtilsService getBaseUtilsService() {
+        return baseUtilsService;
+    }
+
+    /**
      * 初始化服务
      * @author lw
      * @date 2021/1/16
@@ -78,6 +91,7 @@ public abstract class BasePlugin extends JavaPlugin {
         baseConfigService = new BaseConfigService(this);
         baseLanguageService = new BaseLanguageService(this);
         baseMessageService = new BaseMessageService(this);
+        baseUtilsService = new BaseUtilsService(this);
     }
 
     /**
@@ -89,20 +103,16 @@ public abstract class BasePlugin extends JavaPlugin {
      */
     @Override
     public void onEnable(){
+        //初始化服务
         initService();
 
-        initTest();
-
         boolean flag = enable();
+
         if(!flag){
             BasePlugin tempPlugin = this;
             tempPlugin.setEnabled(false);
             this.baseLogService.warning("LWMcScaffold 加载失败，关闭插件");
         }
-    }
-
-    private void initTest(){
-
     }
 
     /**

@@ -8,13 +8,13 @@ package com.gameclub.model.language;
 public enum BaseLanguageEnum {
 
     //无权限提醒
-    COMMAND_PERMISSIONDENIEDMESSAGE("&4您没有权限执行:{0}."),
+    COMMAND_PERMISSIONDENIEDMESSAGE("&4You do not have permission exec to:{0}."),
     //不属于命令执行范围，如玩家无法执行控制台命令，控制台无法执行玩家的命令
-    COMMAND_NOCOMMANDSENDERTYPEMESSAGE("&4该命令不能在此处执行."),
+    COMMAND_NOCOMMANDSENDERTYPEMESSAGE("&4Your terminal does not meet this requirement."),
     //参数列表不正确
-    COMMAND_ARGS_ERROR("&4参数列表不正确."),
+    COMMAND_ARGS_ERROR("&4Command parameter format is incorrect."),
     //命令未找到
-    COMMAND_NOT_FOUND_COMMAND("&4命令未找到.");
+    COMMAND_NOT_FOUND_COMMAND("&4Command not found.");
 
     private String value;
 

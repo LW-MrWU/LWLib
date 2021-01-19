@@ -4,10 +4,10 @@ author: LW-MrWU
 website: http://www.gameclub.vip
 description: LWMcScaffold 是一个前置脚手架服务
 
-main: com.gameclub.service.basic.service.plugin.OnEnablePlugin
+main: com.gameclub.service.basic.service.plugin.MainPlugin
 version: 1.0
 api-version: 1.13
 
 load: startup
 usage:
-  property: 暂时不知道是啥
+  property: 无权操作
