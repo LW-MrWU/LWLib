@@ -1,7 +1,6 @@
 package com.gameclub.test.config;
 
 import com.gameclub.service.basic.service.plugin.BasePlugin;
-import com.gameclub.service.basic.service.plugin.OnEnablePlugin;
 import org.junit.Test;
 
 /**

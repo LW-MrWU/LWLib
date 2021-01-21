@@ -9,13 +9,24 @@ import com.gameclub.model.language.BaseLanguageEnum;
  * @description 服务启动时调用
  */
 public class MainPlugin extends BasePlugin {
+    private static MainPlugin mainPlugin;
+
+    public static MainPlugin getInstance(){
+        return mainPlugin;
+    }
+
     @Override
     public boolean enable() {
+        mainPlugin = this;
+
         //初始化配置文件
         initConfig();
         //成功加载提示
-        getBaseLogService().info("&a成功加载 LWMcScaffold");
+        String successLoad = getBaseLanguageService().getLanguage(BaseLanguageEnum.SUCCESS_LOAD.name(), BaseLanguageEnum.SUCCESS_LOAD.getValue());
+        getBaseLogService().info(successLoad);
 
+        //测试下
+        initTest();
         return true;
     }
 
@@ -32,4 +43,7 @@ public class MainPlugin extends BasePlugin {
         getBaseConfigService().registerConfig(baseLanguageConfig);
     }
 
+    private void initTest(){
+
+    }
 }

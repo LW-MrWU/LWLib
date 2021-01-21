@@ -2,13 +2,11 @@ name: LWMcScaffold
 author: LW-MrWU
 
 website: http://www.gameclub.vip
-description: LWMcScaffold 是一个前置脚手架服务
+description: LWMcScaffold is a scaffold service
 
 main: com.gameclub.service.basic.service.plugin.MainPlugin
 version: 1.0
-api-version: 1.13
+api-version: 1.16
 
 load: startup
 database: false
-usage:
-  property: error undeclared

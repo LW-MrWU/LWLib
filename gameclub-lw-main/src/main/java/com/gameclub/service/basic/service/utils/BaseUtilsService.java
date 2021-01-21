@@ -52,4 +52,5 @@ public class BaseUtilsService {
         String reTempString = this.basePlugin.getBaseUtilsService().translateColorCodes(tempString);
         return reTempString;
     }
+
 }

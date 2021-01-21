@@ -1,8 +1,12 @@
 package com.gameclub.service.basic.service.config;
 
 import com.gameclub.model.config.BaseConfig;
+import com.gameclub.model.language.BaseLanguageEnum;
 import com.gameclub.service.basic.service.plugin.BasePlugin;
+import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -107,5 +111,17 @@ public class BaseConfigService {
         }
         msg = this.basePlugin.getBaseUtilsService().substitutionPrms(msg, prms);
         return msg;
+    }
+
+    public void setMsgByConfig(String fileName, String key, String value) {
+        BaseConfig config = getConfig(fileName);
+        FileConfiguration fileConfiguration = config.getConfig();
+        fileConfiguration.set(key, value);
+        try{
+            fileConfiguration.save(fileName);
+        }catch (IOException e){
+            String errorMsg = this.basePlugin.getBaseLanguageService().getLanguage(BaseLanguageEnum.SAVE_CONFIG_ERROR.name(), BaseLanguageEnum.SAVE_CONFIG_ERROR.getValue(), fileName, key);
+            this.basePlugin.getBaseLogService().warning(errorMsg);
+        }
     }
 }

@@ -1,10 +1,13 @@
 package com.gameclub.service.basic.service.plugin;
 
+import com.gameclub.model.command.BaseCommand;
+import com.gameclub.model.language.BaseLanguageEnum;
 import com.gameclub.service.basic.service.config.BaseConfigService;
 import com.gameclub.service.basic.service.language.BaseLanguageService;
 import com.gameclub.service.basic.service.log.BaseLogService;
 import com.gameclub.service.basic.service.message.BaseMessageService;
 import com.gameclub.service.basic.service.utils.BaseUtilsService;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -111,7 +114,8 @@ public abstract class BasePlugin extends JavaPlugin {
         if(!flag){
             BasePlugin tempPlugin = this;
             tempPlugin.setEnabled(false);
-            this.baseLogService.warning("LWMcScaffold 加载失败，关闭插件");
+            String failLoad = baseLanguageService.getLanguage(BaseLanguageEnum.FAIL_LOAD.name(), BaseLanguageEnum.FAIL_LOAD.getValue());
+            this.baseLogService.warning(failLoad);
         }
     }
 
@@ -123,4 +127,17 @@ public abstract class BasePlugin extends JavaPlugin {
      * @return boolean
      */
     public abstract boolean enable();
+
+    /**
+     * 注册命令执行者
+     * @author lw
+     * @date 2021/1/19 15:32
+     * @param [commandServcie 命令执行服务]
+     * @return void
+     */
+    public <T extends BaseCommand> void registerCommand(T baseCommand) {
+        PluginCommand pluginCommand = getCommand(baseCommand.getCommandName());
+        pluginCommand.setExecutor(baseCommand);
+        pluginCommand.setTabCompleter(baseCommand);
+    }
 }

@@ -3,7 +3,7 @@ package com.gameclub.model.command;
 /**
  * @author lw
  * @date 创建时间 2021/1/18 18:05
- * @description 命令可用于谁
+ * @description 命令可用对象
  */
 public enum BaseCommandSenderType {
 
