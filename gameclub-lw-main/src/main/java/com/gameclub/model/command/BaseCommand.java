@@ -3,6 +3,7 @@ package com.gameclub.model.command;
 import com.gameclub.model.language.BaseLanguageEnum;
 import com.gameclub.service.basic.service.plugin.BasePlugin;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -39,6 +40,21 @@ public abstract class BaseCommand implements TabExecutor {
     private Map<String, BaseCommand> subCommandAliases = new HashMap<String, BaseCommand>();
 
     /**
+     * 命令权限
+     */
+    private String permission;
+
+    /**
+     * 命令可用对象
+     */
+    private BaseCommandSenderType commandSenderType = BaseCommandSenderType.ARBITRARLIY;
+
+    /**
+     * 命令帮助
+     */
+    private String usage;
+
+    /**
      * 构造函数
      * @author lw
      * @date 2021/1/20 18:30
@@ -72,16 +88,14 @@ public abstract class BaseCommand implements TabExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         //判断权限节点
         if (getPermissionNode() != null && !commandSender.hasPermission(getPermissionNode())) {
-            BaseLanguageEnum languageEnum = BaseLanguageEnum.COMMAND_PERMISSIONDENIEDMESSAGE;
-            this.basePlugin.getBaseMessageService().sendMessageByLanguage(commandSender, languageEnum.name(), languageEnum.getValue(), command.getName());
+            commandSender.sendMessage(ChatColor.RED + "You don't have permission to do this!");
             return true;
         }
 
         //判断命令对象
         boolean isCommandSenderType = checkCommandSenderType(commandSender, commandSenderType());
         if(!isCommandSenderType){
-            BaseLanguageEnum languageEnum = BaseLanguageEnum.COMMAND_NOCOMMANDSENDERTYPEMESSAGE;
-            this.basePlugin.getBaseMessageService().sendMessageByLanguage(commandSender, languageEnum.name(), languageEnum.getValue());
+            commandSender.sendMessage(ChatColor.RED + BaseLanguageEnum.COMMAND_NOCOMMANDSENDERTYPEMESSAGE.getValue());
             return true;
         }
 
@@ -147,11 +161,15 @@ public abstract class BaseCommand implements TabExecutor {
         List<String> result = onTabComplete(commandSender, args);
         //默认tab列表
         if (result == null && length == 1) {
-            List<String> subCommandsKeyList = getSubCommandsKeyList();
-            List<String> subCommandAliasesKeyList = getSubCommandAliasesKeyList();
+            List<String> subCommandsKeyList = getPermissionSubCommandsKeyList(commandSender);
+            List<String> subCommandAliasesKeyList = getPermissionSubCommandAliasesKeyList(commandSender);
             result = new ArrayList<>();
-            result.addAll(subCommandsKeyList);
-            result.addAll(subCommandAliasesKeyList);
+            if(subCommandsKeyList != null && subCommandsKeyList.size() > 0){
+                result.addAll(subCommandsKeyList);
+            }
+            if(subCommandAliasesKeyList != null && subCommandAliasesKeyList.size() > 0){
+                result.addAll(subCommandAliasesKeyList);
+            }
         }
 
         return result;
@@ -200,6 +218,23 @@ public abstract class BaseCommand implements TabExecutor {
     }
 
     /**
+     * 获取所有有权限的子命令list列表
+     * @author lw
+     * @date 2021/1/21 17:17
+     * @param [commandSender]
+     * @return java.util.List<java.lang.String>
+     */
+    public List<String> getPermissionSubCommandsKeyList(CommandSender commandSender){
+        List<String> list = new ArrayList<>();
+        for (BaseCommand command : subCommands.values()){
+            if(checkPermission(commandSender, command)){
+                list.add(command.getCommandName());
+            }
+        }
+        return list;
+    }
+
+    /**
      * 获取所有子命令(别名)list列表
      * @author lw
      * @date 2021/1/20 13:57
@@ -209,6 +244,23 @@ public abstract class BaseCommand implements TabExecutor {
     public List<String> getSubCommandAliasesKeyList(){
         List<String> mapKeyList = new ArrayList<>(subCommandAliases.keySet());
         return mapKeyList;
+    }
+
+    /**
+     * 获取所有有权限的子命令(别名)list列表
+     * @author lw
+     * @date 2021/1/21 17:17
+     * @param [commandSender]
+     * @return java.util.List<java.lang.String>
+     */
+    public List<String> getPermissionSubCommandAliasesKeyList(CommandSender commandSender){
+        List<String> list = new ArrayList<>();
+        for (BaseCommand command : subCommandAliases.values()){
+            if(checkPermission(commandSender, command)){
+                list.add(command.getCommandName());
+            }
+        }
+        return list;
     }
 
     /**
@@ -225,7 +277,7 @@ public abstract class BaseCommand implements TabExecutor {
 
         boolean isCommandSenderType = false;
 
-        BaseCommandSenderType senderCommandSenderType = getCommandSenderType(sender);
+        BaseCommandSenderType senderCommandSenderType = getSenderCommandSenderType(sender);
 
         //如果是任意
         if(commandSenderType.equals(BaseCommandSenderType.ARBITRARLIY)) {
@@ -246,13 +298,82 @@ public abstract class BaseCommand implements TabExecutor {
      * @param [sender]
      * @return com.gameclub.model.command.BaseCommandSenderType
      */
-    public BaseCommandSenderType getCommandSenderType(CommandSender sender) {
+    public BaseCommandSenderType getSenderCommandSenderType(CommandSender sender) {
         BaseCommandSenderType senderCommandSenderType = BaseCommandSenderType.PLAYER;
         //获取命令发送方类型
         if(sender instanceof ConsoleCommandSender) {
             senderCommandSenderType = BaseCommandSenderType.CONSOLE;
         }
         return senderCommandSenderType;
+    }
+
+    /**
+     * 权限检查
+     * @author lw
+     * @date 2021/1/21 16:54
+     * @param [sender, baseCommand]
+     * @return boolean
+     */
+    public boolean checkPermission(CommandSender sender, BaseCommand baseCommand) {
+        String permission = baseCommand.getPermission();
+        if(StringUtils.isEmpty(permission) || sender.hasPermission(permission)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 帮助命令(主命令下所有子命令的帮助提示)
+     * @author lw
+     * @date 2021/1/21 18:10
+     * @param [sender, mainCommand]
+     * @return void
+     */
+    public <T extends BaseCommand> void showAllHelp(CommandSender sender, T mainCommand){
+        List<String> helps = new ArrayList<String>();
+
+        Map<String, BaseCommand> cmds = mainCommand.getSubCommands();
+        Set<String> keys = cmds.keySet();
+        for(String key : keys) {
+            BaseCommand baseCommand = cmds.get(key);
+            if(this.checkPermission(sender, baseCommand) && mainCommand.checkCommandSenderType(sender, baseCommand.getCommandSenderType())) {
+                String uesAge = baseCommand.getUsage();
+                if(!helps.contains(uesAge)) {
+                    helps.add(uesAge);
+                }
+            }
+        }
+
+        for(String help : helps) {
+            mainCommand.basePlugin.getBaseMessageService().sendMessage(sender, help);
+        }
+    }
+
+    /**
+     * 帮助命令(当前命令下所有子命令的帮助提示)
+     * @author lw
+     * @date 2021/1/21 17:01
+     * @param [sender]
+     * @return void
+     */
+    public <T extends BasePlugin> void showHelp(CommandSender sender, T mainPlugin) {
+        List<String> helps = new ArrayList<String>();
+
+        Map<String, BaseCommand> cmds = this.getSubCommands();
+        Set<String> keys = cmds.keySet();
+        for(String key : keys) {
+            BaseCommand baseCommand = cmds.get(key);
+            if(this.checkPermission(sender, baseCommand) && this.checkCommandSenderType(sender, baseCommand.getCommandSenderType())) {
+                String uesAge = baseCommand.getUsage();
+                if(!helps.contains(uesAge)) {
+                    helps.add(uesAge);
+                }
+            }
+        }
+
+        for(String help : helps) {
+            mainPlugin.getBaseMessageService().sendMessage(sender, help);
+        }
     }
 
     /**
@@ -297,5 +418,29 @@ public abstract class BaseCommand implements TabExecutor {
      */
     public void setCommandLabel(String commandLabel) {
         this.commandLabel = commandLabel;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public BaseCommandSenderType getCommandSenderType() {
+        return commandSenderType;
+    }
+
+    public void setCommandSenderType(BaseCommandSenderType commandSenderType) {
+        this.commandSenderType = commandSenderType;
+    }
+
+    public String getUsage() {
+        return usage;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage;
     }
 }

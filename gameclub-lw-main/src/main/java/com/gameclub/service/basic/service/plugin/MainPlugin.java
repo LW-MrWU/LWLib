@@ -44,6 +44,5 @@ public class MainPlugin extends BasePlugin {
     }
 
     private void initTest(){
-
     }
 }

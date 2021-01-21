@@ -16,9 +16,9 @@ public enum BaseLanguageEnum {
     //命令未找到
     COMMAND_NOT_FOUND_COMMAND("&cCommand not found."),
     //成功加载插件
-    SUCCESS_LOAD("&a plugin load success."),
+    SUCCESS_LOAD("&aplugin load success."),
     //加载插件失败
-    FAIL_LOAD("&c plugin load failure."),
+    FAIL_LOAD("&cplugin load failure."),
     //保存配置文件失败
     SAVE_CONFIG_ERROR("&csave config error,config:{0},key:{1}");
 
