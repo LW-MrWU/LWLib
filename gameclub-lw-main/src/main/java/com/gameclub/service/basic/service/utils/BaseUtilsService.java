@@ -29,7 +29,7 @@ public class BaseUtilsService {
      * @param [msg]
      * @return java.lang.String
      */
-    public String translateColorCodes(String msg){
+    public String chatColorCodes(String msg){
         String newStr = ChatColor.translateAlternateColorCodes('&', msg);
         return newStr;
     }
@@ -49,7 +49,7 @@ public class BaseUtilsService {
                 tempString = tempString.replace(holder, String.valueOf(prms[i]));
             }
         }
-        String reTempString = this.basePlugin.getBaseUtilsService().translateColorCodes(tempString);
+        String reTempString = this.basePlugin.getBaseUtilsService().chatColorCodes(tempString);
         return reTempString;
     }
 

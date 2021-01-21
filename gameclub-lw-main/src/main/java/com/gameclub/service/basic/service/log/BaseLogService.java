@@ -29,7 +29,7 @@ public class BaseLogService {
      * @return void
      */
     public void info(String log){
-        String reLog = this.basePlugin.getBaseUtilsService().translateColorCodes(log);
+        String reLog = this.basePlugin.getBaseUtilsService().chatColorCodes(log);
         this.basePlugin.getLogger().info(reLog);
     }
 
@@ -41,7 +41,7 @@ public class BaseLogService {
      * @return void
      */
     public void warning(String log){
-        String reLog = this.basePlugin.getBaseUtilsService().translateColorCodes(log);
+        String reLog = this.basePlugin.getBaseUtilsService().chatColorCodes(log);
         this.basePlugin.getLogger().warning(reLog);
     }
 }

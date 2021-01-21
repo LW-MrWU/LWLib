@@ -10,16 +10,6 @@ import com.gameclub.service.basic.service.plugin.BasePlugin;
 public class BaseLanguageConfig extends BaseConfig{
     public static String configName = "language/lang.yml";
 
-    private String test;
-
-    public String getTest() {
-        return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
-    }
-
     /**
      * 构造函数
      *
