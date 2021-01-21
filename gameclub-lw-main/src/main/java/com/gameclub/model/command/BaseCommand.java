@@ -203,6 +203,13 @@ public abstract class BaseCommand implements TabExecutor {
      */
     public abstract String getPermissionNode();
 
+    /**
+     * 返回命令可用对象 null为ARBITRARLIY任意
+     * @author lw
+     * @date 2021/1/21 18:23
+     * @param []
+     * @return com.gameclub.model.command.BaseCommandSenderType
+     */
     public abstract BaseCommandSenderType commandSenderType();
 
     /**
