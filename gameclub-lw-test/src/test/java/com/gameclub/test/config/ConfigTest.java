@@ -1,6 +1,6 @@
 package com.gameclub.test.config;
 
-import com.gameclub.service.basic.service.plugin.BasePlugin;
+import com.gameclub.utils.base.AbstractNoTransactionalService;
 import org.junit.Test;
 
 /**
@@ -8,17 +8,11 @@ import org.junit.Test;
  * @date 创建时间 2021/1/18 15:08
  * @description TODO
  */
-public class ConfigTest {
+public class ConfigTest extends AbstractNoTransactionalService {
 
     @Test
     public void TestConfig(){
-        BasePlugin basePlugin = new BasePlugin() {
-            @Override
-            public boolean enable() {
-                return true;
-            }
-        };
-        ConfigTest configTest = new ConfigTest();
-        basePlugin.getBaseLogService().info("1111");
+        String path = System.getProperty("file.separator");
+        log.info("path:"+path);
     }
 }

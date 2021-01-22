@@ -1,4 +1,4 @@
-package com.gameclub.model.command;
+package com.gameclub.model.enumModel;
 
 /**
  * @author lw

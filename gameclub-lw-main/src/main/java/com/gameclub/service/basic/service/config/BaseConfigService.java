@@ -1,24 +1,20 @@
 package com.gameclub.service.basic.service.config;
 
 import com.gameclub.model.config.BaseConfig;
-import com.gameclub.model.language.BaseLanguageEnum;
 import com.gameclub.service.basic.service.plugin.BasePlugin;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.apache.commons.lang.StringUtils;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @author lw
  * @date 创建时间 2021/1/16 20:03
  * @description 基础配置服务
  */
-public class BaseConfigService {
+public class BaseConfigService <T extends BaseConfig> {
     protected BasePlugin basePlugin;
-    private Map<String,BaseConfig> configs = new HashMap<String,BaseConfig>();
+    private Map<String, BaseConfig> configs = new HashMap<String, BaseConfig>();
 
     /**
      * 构造函数
@@ -32,44 +28,58 @@ public class BaseConfigService {
     }
 
     /**
-     * 将配置注册进来
+     * 获取插件配置文件夹文件绝对路径
      * @author lw
-     * @date 2021/1/18 15:02
-     * @param [config]
-     * @return void
+     * @date 2021/1/22 12:02
+     * @param [fileName, folder]
+     * @return java.lang.String
      */
-    public <T extends BaseConfig> void registerConfig(T config){
-        if(config.isInit()) {
-            String tempkey = config.getFileName();
-            configs.put(tempkey, config);
-        }else {
-            basePlugin.getBaseLogService().warning(config.getFileName() + " 由于初始化失败，配置文件无法注册！");
+    public String getPluginRealFilePath(T config){
+        String fileName = config.getFileName();
+        String folder = config.getFolder();
+        String basePath = basePlugin.getDataFolder().toString();
+        //系统默认分隔符
+        String systemSeparator = System.getProperty("file.separator");
+
+        if(StringUtils.isEmpty(folder)){
+            return basePath + systemSeparator + fileName;
         }
+
+        folder = folder.replace("/", systemSeparator);
+        return basePath + systemSeparator + folder + systemSeparator + fileName;
     }
 
     /**
-     * 重新加载某个config
+     * 获取系统配置文件绝对路径
      * @author lw
-     * @date 2021/1/18 15:03
-     * @param [configFileName]
-     * @return void
+     * @date 2021/1/22 12:02
+     * @param [fileName, folder]
+     * @return java.lang.String
      */
-    public void reloadConfig(String configFileName) {
-        BaseConfig tempconfig = configs.get(configFileName);
-        tempconfig.reload();
+    public String getSysRealFilePath(T config){
+        String fileName = config.getFileName();
+        String folder = config.getFolder();
+        //系统默认分隔符
+        //String systemSeparator = System.getProperty("file.separator");
+
+        if(StringUtils.isEmpty(folder)){
+            return fileName;
+        }
+
+        return folder + "/" + fileName;
     }
 
     /**
-     * 重载所有配置文件
+     * 注册配置文件
      * @author lw
-     * @date 2021/1/18 15:06
-     * @param []
+     * @date 2021/1/22 13:37
+     * @param [configParams]
      * @return void
      */
-    public void reloadAllConfig() {
-        Set<String> tempkeys = this.configs.keySet();
-        for(String tempkey : tempkeys) {
-            reloadConfig(tempkey);
+    public void registerConfig(T... configParams) {
+        for (T config : configParams){
+            String key = getPluginRealFilePath(config);
+            configs.put(key, config);
         }
     }
 
@@ -81,47 +91,12 @@ public class BaseConfigService {
      * @return T
      */
     @SuppressWarnings("unchecked")
-    public <T extends BaseConfig> T getConfig(String configFileName){
+    public T getConfig(String configFileName){
         T tempresult = null;
         BaseConfig tempconfig = configs.get(configFileName);
         if(tempconfig!=null) {
             tempresult = (T)tempconfig;
         }
         return tempresult;
-    }
-
-    /**
-     * 根据key查找指定配置文件信息
-     * @author lw
-     * @date 2021/1/19 14:36
-     * @param [fileName 文件名, key 键, defualt 默认值, prms 替换信息]
-     * @return java.lang.String
-     */
-    public String getMsgByConfig(String fileName, String key,String defualt,String ...prms) {
-        BaseConfig config = getConfig(fileName);
-
-        String msg = null;
-        if(config!=null) {
-            msg = config.getConfig().getString(key, defualt);
-            if(msg==null) {
-                msg = defualt;
-            }
-        }else {
-            msg = defualt;
-        }
-        msg = this.basePlugin.getBaseUtilsService().substitutionPrms(msg, prms);
-        return msg;
-    }
-
-    public void setMsgByConfig(String fileName, String key, String value) {
-        BaseConfig config = getConfig(fileName);
-        FileConfiguration fileConfiguration = config.getConfig();
-        fileConfiguration.set(key, value);
-        try{
-            fileConfiguration.save(fileName);
-        }catch (IOException e){
-            String errorMsg = this.basePlugin.getBaseLanguageService().getLanguage(BaseLanguageEnum.SAVE_CONFIG_ERROR.name(), BaseLanguageEnum.SAVE_CONFIG_ERROR.getValue(), fileName, key);
-            this.basePlugin.getBaseLogService().warning(errorMsg);
-        }
     }
 }

@@ -1,12 +1,11 @@
 package com.gameclub.model.config;
 
+import com.gameclub.model.enumModel.BaseSysMsgEnum;
 import com.gameclub.service.basic.service.plugin.BasePlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 
@@ -15,172 +14,171 @@ import java.nio.file.Files;
  * @date 创建时间 2021/1/18 14:51
  * @description 所有配置文件的父类
  */
-public abstract class BaseConfig {
-
-    private boolean init = false;
-    private String fileName;
+public abstract class BaseConfig<T extends BasePlugin> {
+    private T basePlugin;
     private File file;
-    private FileConfiguration config;
-    private BasePlugin basePlugin;
+    private FileConfiguration fileConfiguration;
+    private String fileName;
+    private String folder;
+    private boolean init = true;
 
     /**
      * 构造函数
      * @author lw
-     * @date 2021/1/18 14:51
-     * @param [fileName 文件名, plugin 插件]
+     * @date 2021/1/22 15:08
+     * @param [basePlugin 主服务, fileName 文件名]
      * @return
      */
-    public BaseConfig(String fileName, BasePlugin basePlugin) {
-        this.fileName = fileName;
-        this.basePlugin = basePlugin;
-        this.file = new File(getConfigFilePath());
-
-        try {
-            if (!this.file.exists()) {
-                this.file.getParentFile().mkdirs();
-
-                InputStream inputStream = this.basePlugin.getResource(this.fileName);
-
-                if(inputStream!=null) {
-                    Files.copy(inputStream,
-                            this.file.toPath(), new CopyOption[0]);
-
-                    this.loadFileConfig();
-                    init = true;
-                }else {
-                    if(createConfig()) {
-                        this.loadFileConfig();
-                        init = true;
-                    }
-                }
-            }else {
-                this.loadFileConfig();
-                init = true;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if(this.isInit()) {
-            load();
-        }
+    public BaseConfig(T basePlugin, String fileName){
+        this(basePlugin, fileName, null);
     }
 
     /**
-     * 配置全路径
+     * 构造函数（文件夹）
      * @author lw
-     * @date 2021/1/18 14:52
-     * @param []
-     * @return java.lang.String
+     * @date 2021/1/22 15:08
+     * @param [basePlugin 主服务, fileName 文件名, folder 文件夹]
+     * @return
      */
-    protected String getConfigFilePath() {
-        return this.basePlugin.getDataFolder()+"/"+this.getFileName();
+    public BaseConfig(T basePlugin, String fileName, String folder){
+        this.basePlugin = basePlugin;
+        this.fileName = fileName;
+        this.folder = folder;
+
+        String pluginRealFilePath = this.basePlugin.getBaseConfigService().getPluginRealFilePath(this);
+        this.file = new File(pluginRealFilePath);
+
+        if(!file.exists()){
+            this.file.getParentFile().mkdirs();
+            String sysRealFilePath = this.basePlugin.getBaseConfigService().getSysRealFilePath(this);
+            InputStream inputStream = this.basePlugin.getResource(sysRealFilePath);
+
+            if(inputStream != null){
+                try{
+                    Files.copy(inputStream, this.file.toPath(), new CopyOption[0]);
+                }catch (IOException e){
+                    String msg = this.basePlugin.getBaseLanguageService().getLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
+                    this.basePlugin.getBaseLogService().info(msg);
+                }
+                String msg = this.basePlugin.getBaseLanguageService().getLanguage(BaseSysMsgEnum.CONFIG_NOT_FOUND.name(), BaseSysMsgEnum.CONFIG_NOT_FOUND.getValue(), fileName);
+                this.basePlugin.getBaseLogService().info(msg);
+            }else{
+                if(!createConfig()){
+                    this.init = false;
+                    return;
+                }
+            }
+        }
+
+        this.loadFileConfig();
+        this.load();
+        this.basePlugin.getBaseConfigService().registerConfig(this);
     }
 
     /**
      * 加载fileconfig
      * @author lw
-     * @date 2021/1/18 14:57
+     * @date 2021/1/22 14:42
      * @param []
      * @return void
      */
     protected void loadFileConfig() {
-        if(this.config==null) {
-            this.config = YamlConfiguration.loadConfiguration(this.file);
+        if(this.fileConfiguration==null) {
+            this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
         }
     }
 
     /**
-     * 创建配置
+     * 重新加载
      * @author lw
-     * @date 2021/1/18 14:58
+     * @date 2021/1/22 15:13
      * @param []
-     * @return boolean
+     * @return void
      */
-    protected abstract boolean createConfig();
+    public void reload() {
+        if(this.isInit()) {
+            this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
+        }
+    }
 
     /**
      * 加载配置
      * @author lw
-     * @date 2021/1/18 15:00
+     * @date 2021/1/22 15:13
      * @param []
      * @return void
      */
-    public void load() {
-        if(this.isInit()) {
+    public void load(){
+        if(this.isInit()){
             loadConfig();
         }
     }
 
     /**
-     * 加载配置文件
+     * 加载配置文件后的额外操作
      * @author lw
-     * @date 2021/1/18 15:00
+     * @date 2021/1/22 14:45
      * @param []
      * @return void
      */
     public abstract void loadConfig();
 
     /**
-     * 重新加载
+     * 创建自定义配置（例如玩家文件）
      * @author lw
-     * @date 2021/1/18 15:04
+     * @date 2021/1/22 15:00
      * @param []
-     * @return void
+     * @return boolean
      */
-    public void reload() {
-        if(this.isInit()) {
-            this.config = YamlConfiguration.loadConfiguration(this.file);
+    protected abstract boolean createConfig();
+
+    /**
+     * 创建一个新的配置文件
+     * @author lw
+     * @date 2021/1/22 15:17
+     * @param []
+     * @return boolean
+     */
+    public boolean createNewConfigFile() {
+        boolean state = false;
+        try {
+            this.file.createNewFile();
+            this.loadFileConfig();
+            state = true;
+        } catch (IOException e) {
+
         }
+        return state;
     }
 
     /**
-     * 添加配置
+     * 获取配置文件FileConfiguration
      * @author lw
-     * @date 2021/1/18 15:01
-     * @param [key, val]
-     * @return void
+     * @date 2021/1/22 11:29
+     * @param []
+     * @return org.bukkit.configuration.file.FileConfiguration
      */
-    public void setProperties(String key,Object val) {
-        this.getConfig().set(key, val);
+    public FileConfiguration getFileConfiguration() {
+        return this.fileConfiguration;
+    }
+
+    public File getFile() {
+        return this.file;
+    }
+
+    public String getFileName(){
+        return this.fileName;
+    }
+
+    public String getFolder(){
+        return this.folder;
     }
 
     public boolean isInit() {
         return init;
     }
 
-    public void setInit(boolean init) {
-        this.init = init;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public FileConfiguration getConfig() {
-        return config;
-    }
-
-    public void setConfig(FileConfiguration config) {
-        this.config = config;
-    }
-
-    public BasePlugin getBasePlugin() {
+    public T getBasePlugin() {
         return basePlugin;
-    }
-
-    public void setBasePlugin(BasePlugin basePlugin) {
-        this.basePlugin = basePlugin;
     }
 }

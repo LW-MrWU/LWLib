@@ -1,5 +1,6 @@
 package com.gameclub.service.basic.service.language;
 
+import com.gameclub.model.config.BaseConfig;
 import com.gameclub.model.config.BaseLanguageConfig;
 import com.gameclub.service.basic.service.plugin.BasePlugin;
 
@@ -31,11 +32,13 @@ public class BaseLanguageService {
      * @return java.lang.String
      */
     public String getLanguage(String key,String defualt,String ...prms) {
-        BaseLanguageConfig baseLanguageConfig = this.basePlugin.getBaseConfigService().getConfig(BaseLanguageConfig.configName);
+        String lang = BaseLanguageConfig.getConfigName();
+        System.out.println("lang:"+lang);
+        BaseConfig baseLanguageConfig = this.basePlugin.getBaseConfigService().getConfig(BaseLanguageConfig.getConfigName());
 
         String language = null;
         if(baseLanguageConfig!=null) {
-            language = baseLanguageConfig.getConfig().getString(key, defualt);
+            language = baseLanguageConfig.getFileConfiguration().getString(key, defualt);
             if(language==null) {
                 language = defualt;
             }

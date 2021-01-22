@@ -1,7 +1,7 @@
 package com.gameclub.service.basic.service.plugin;
 
-import com.gameclub.model.config.BaseLanguageConfig;
-import com.gameclub.model.language.BaseLanguageEnum;
+import com.gameclub.lw.DefaultConfig;
+import com.gameclub.model.enumModel.BaseSysMsgEnum;
 
 /**
  * @author lw
@@ -22,12 +22,17 @@ public class MainPlugin extends BasePlugin {
         //初始化配置文件
         initConfig();
         //成功加载提示
-        String successLoad = getBaseLanguageService().getLanguage(BaseLanguageEnum.SUCCESS_LOAD.name(), BaseLanguageEnum.SUCCESS_LOAD.getValue());
+        String successLoad = getBaseLanguageService().getLanguage(BaseSysMsgEnum.SUCCESS_LOAD.name(), BaseSysMsgEnum.SUCCESS_LOAD.getValue());
         getBaseLogService().info(successLoad);
 
         //测试下
         initTest();
         return true;
+    }
+
+    @Override
+    public boolean disable() {
+        return false;
     }
 
     /**
@@ -38,11 +43,11 @@ public class MainPlugin extends BasePlugin {
      * @return void
      */
     private void initConfig(){
-        //语言配置文件
-        BaseLanguageConfig baseLanguageConfig = new BaseLanguageConfig(this);
-        getBaseConfigService().registerConfig(baseLanguageConfig);
+        DefaultConfig defaultConfig = new DefaultConfig();
+
     }
 
     private void initTest(){
+
     }
 }

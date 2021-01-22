@@ -1,7 +1,7 @@
 package com.gameclub.service.basic.service.plugin;
 
 import com.gameclub.model.command.BaseCommand;
-import com.gameclub.model.language.BaseLanguageEnum;
+import com.gameclub.model.enumModel.BaseSysMsgEnum;
 import com.gameclub.service.basic.service.config.BaseConfigService;
 import com.gameclub.service.basic.service.language.BaseLanguageService;
 import com.gameclub.service.basic.service.log.BaseLogService;
@@ -114,19 +114,40 @@ public abstract class BasePlugin extends JavaPlugin {
         if(!flag){
             BasePlugin tempPlugin = this;
             tempPlugin.setEnabled(false);
-            String failLoad = baseLanguageService.getLanguage(BaseLanguageEnum.FAIL_LOAD.name(), BaseLanguageEnum.FAIL_LOAD.getValue());
+            String failLoad = baseLanguageService.getLanguage(BaseSysMsgEnum.FAIL_LOAD.name(), BaseSysMsgEnum.FAIL_LOAD.getValue());
             this.baseLogService.warning(failLoad);
         }
     }
 
     /**
-     * TODO
+     * 服务卸载
+     * @author lw
+     * @date 2021/1/22 9:58
+     * @param []
+     * @return void
+     */
+    @Override
+    public void onDisable(){
+        disable();
+    }
+
+    /**
+     * 自定义服务启动
      * @author bg392277
      * @date 2021/1/18 11:05
      * @param []
      * @return boolean
      */
     public abstract boolean enable();
+
+    /**
+     * 自定义服务卸载
+     * @author lw
+     * @date 2021/1/22 9:58
+     * @param []
+     * @return boolean
+     */
+    public abstract boolean disable();
 
     /**
      * 注册命令执行者

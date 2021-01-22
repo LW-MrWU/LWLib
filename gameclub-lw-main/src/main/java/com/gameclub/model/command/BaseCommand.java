@@ -1,6 +1,7 @@
 package com.gameclub.model.command;
 
-import com.gameclub.model.language.BaseLanguageEnum;
+import com.gameclub.model.enumModel.BaseSysMsgEnum;
+import com.gameclub.model.enumModel.BaseCommandSenderType;
 import com.gameclub.service.basic.service.plugin.BasePlugin;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
@@ -62,7 +63,7 @@ public abstract class BaseCommand implements TabExecutor {
      * @return
      */
     public BaseCommand(String commandName){
-        this.commandName = commandName;
+        this(null, commandName);
     }
 
     /**
@@ -72,9 +73,9 @@ public abstract class BaseCommand implements TabExecutor {
      * @param [commandName, basePlugin]
      * @return
      */
-    public BaseCommand(String commandName, BasePlugin basePlugin){
-        this.commandName = commandName;
+    public BaseCommand(BasePlugin basePlugin, String commandName){
         this.basePlugin = basePlugin;
+        this.commandName = commandName;
     }
 
     /**
@@ -95,7 +96,7 @@ public abstract class BaseCommand implements TabExecutor {
         //判断命令对象
         boolean isCommandSenderType = checkCommandSenderType(commandSender, commandSenderType());
         if(!isCommandSenderType){
-            commandSender.sendMessage(ChatColor.RED + BaseLanguageEnum.COMMAND_NOCOMMANDSENDERTYPEMESSAGE.getValue());
+            commandSender.sendMessage(ChatColor.RED + BaseSysMsgEnum.COMMAND_NOCOMMANDSENDERTYPEMESSAGE.getValue());
             return true;
         }
 
