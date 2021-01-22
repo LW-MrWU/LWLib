@@ -37,7 +37,7 @@ gameclub-lw-resources/target/*
 gameclub-lw-utils/target/*
 gameclub-lw-test/target/*
 
-mc-scaffold.iml
+LWLib.iml
 gameclub-lw-main/gameclub-lw-main.iml
 gameclub-lw-resources/gameclub-lw-resources.iml
 gameclub-lw-utils/gameclub-lw-utils.iml
