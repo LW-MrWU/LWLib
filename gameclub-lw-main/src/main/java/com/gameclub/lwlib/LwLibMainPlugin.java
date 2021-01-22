@@ -1,32 +1,29 @@
-package com.gameclub.service.basic.service.plugin;
+package com.gameclub.lwlib;
 
-import com.gameclub.lw.DefaultConfig;
 import com.gameclub.model.enumModel.BaseSysMsgEnum;
+import com.gameclub.service.basic.service.plugin.BasePlugin;
 
 /**
  * @author lw
  * @date 创建时间 2021/1/16 18:36
- * @description 服务启动时调用
+ * @description lwlib服务启动时调用
  */
-public class MainPlugin extends BasePlugin {
-    private static MainPlugin mainPlugin;
+public class LwLibMainPlugin extends BasePlugin {
+    private static LwLibMainPlugin lwLibMainPlugin;
 
-    public static MainPlugin getInstance(){
-        return mainPlugin;
+    public static LwLibMainPlugin getInstance(){
+        return lwLibMainPlugin;
     }
 
     @Override
     public boolean enable() {
-        mainPlugin = this;
+        lwLibMainPlugin = this;
 
         //初始化配置文件
         initConfig();
         //成功加载提示
         String successLoad = getBaseLanguageService().getLanguage(BaseSysMsgEnum.SUCCESS_LOAD.name(), BaseSysMsgEnum.SUCCESS_LOAD.getValue());
         getBaseLogService().info(successLoad);
-
-        //测试下
-        initTest();
         return true;
     }
 
@@ -43,11 +40,6 @@ public class MainPlugin extends BasePlugin {
      * @return void
      */
     private void initConfig(){
-        DefaultConfig defaultConfig = new DefaultConfig();
-
-    }
-
-    private void initTest(){
-
+        LwLibDefaultConfig defaultConfig = new LwLibDefaultConfig();
     }
 }

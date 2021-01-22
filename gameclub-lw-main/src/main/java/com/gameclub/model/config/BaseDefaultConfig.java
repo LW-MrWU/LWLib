@@ -10,9 +10,9 @@ import org.bukkit.configuration.file.FileConfiguration;
  * @date 创建时间 2021/1/22 15:24
  * @description config文件父类
  */
-public abstract class BaseDefaultConfig extends BaseConfig {
+public abstract class BaseDefaultConfig <T extends BasePlugin> extends BaseConfig {
 
-    public BaseDefaultConfig(BasePlugin basePlugin) {
+    public BaseDefaultConfig(T basePlugin) {
         super(basePlugin, "config.yml");
     }
 

@@ -1,16 +1,12 @@
-name: LWMcScaffold
+name: LWLib
 author: LW-MrWU
 
 website: http://www.gameclub.vip
-description: LWMcScaffold is a scaffold service
+description: LWLib is a scaffold service
 
-main: com.gameclub.service.basic.service.plugin.MainPlugin
+main: com.gameclub.lwlib.LwLibMainPlugin
 version: 1.0
 api-version: 1.16
 
 load: startup
 database: false
-commands:
-  lw:
-    description: LWMcScaffold prefix
-    usage: /<command> help
