@@ -4,7 +4,7 @@ author: LW-MrWU
 website: http://www.gameclub.vip
 description: LWLib is a scaffold service
 
-main: com.gameclub.lwlib.LwLibMainPlugin
+main: com.gameclub.lwlib.llb.LwLibMainPlugin
 version: 1.0
 api-version: 1.16
 
