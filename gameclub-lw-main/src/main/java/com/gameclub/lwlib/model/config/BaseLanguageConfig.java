@@ -8,7 +8,6 @@ import com.gameclub.lwlib.service.basic.service.plugin.BasePlugin;
  * @description 语言配置父类
  */
 public class BaseLanguageConfig extends BaseConfig {
-    public static String configName;
 
     /**
      * 构造函数
@@ -21,25 +20,14 @@ public class BaseLanguageConfig extends BaseConfig {
      */
     public BaseLanguageConfig(BasePlugin basePlugin, String fileName) {
         super(basePlugin, fileName, "languages");
-        String pluginRealFilePath = basePlugin.getBaseConfigService().getPluginRealFilePath(this);
-        setConfigName(pluginRealFilePath);
     }
 
     @Override
     public void loadConfig() {
-
     }
 
     @Override
     protected boolean createConfig() {
         return false;
-    }
-
-    public static String getConfigName() {
-        return configName;
-    }
-
-    public static void setConfigName(String configName) {
-        BaseLanguageConfig.configName = configName;
     }
 }

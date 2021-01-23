@@ -22,6 +22,7 @@ public abstract class BaseConfig<T extends BasePlugin> {
     private String fileName;
     private String folder;
     private boolean init = true;
+    public static String configName;
 
     /**
      * 构造函数
@@ -47,6 +48,7 @@ public abstract class BaseConfig<T extends BasePlugin> {
         this.folder = folder;
 
         String pluginRealFilePath = this.basePlugin.getBaseConfigService().getPluginRealFilePath(this);
+        setConfigName(pluginRealFilePath);
         this.file = new File(pluginRealFilePath);
 
         if(!file.exists()){
@@ -146,9 +148,41 @@ public abstract class BaseConfig<T extends BasePlugin> {
             this.loadFileConfig();
             state = true;
         } catch (IOException e) {
-
+            this.basePlugin.getBaseLogService().warningByLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
         }
         return state;
+    }
+
+    /**
+     * 保存配置
+     * 实际保存到文件中
+     * @author lw
+     * @date 2021/1/23
+     * @param []
+     * @return void
+     */
+    public void saveConfig() {
+        try {
+            if(this.isInit()) {
+                this.fileConfiguration.save(getFile());
+            }
+        } catch (IOException e) {
+            this.basePlugin.getBaseLogService().warningByLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
+        }
+    }
+
+    /**
+     * 添加/修改/删除配置
+     * value输入null时为删除
+     * 修改内存中数据，只做临时读取用，重新加载后失效
+     * 永久保存请在修改后使用saveConfig方法
+     * @author lw
+     * @date 2021/1/23
+     * @param [key, value]
+     * @return void
+     */
+    public void setProperties(String key,Object value) {
+        this.fileConfiguration.set(key, value);
     }
 
     /**
@@ -180,5 +214,13 @@ public abstract class BaseConfig<T extends BasePlugin> {
 
     public T getBasePlugin() {
         return basePlugin;
+    }
+
+    public static String getConfigName() {
+        return configName;
+    }
+
+    public static void setConfigName(String configName) {
+        BaseConfig.configName = configName;
     }
 }
