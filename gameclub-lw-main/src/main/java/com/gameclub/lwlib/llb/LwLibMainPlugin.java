@@ -22,8 +22,7 @@ public class LwLibMainPlugin extends BasePlugin {
         //初始化配置文件
         initConfig();
         //成功加载提示
-        String successLoad = getBaseLanguageService().getLanguage(BaseSysMsgEnum.SUCCESS_LOAD.name(), BaseSysMsgEnum.SUCCESS_LOAD.getValue());
-        getBaseLogService().info(successLoad);
+        getBaseLogService().infoByLanguage(BaseSysMsgEnum.SUCCESS_LOAD.name(), BaseSysMsgEnum.SUCCESS_LOAD.getValue());
         return true;
     }
 
@@ -40,6 +39,6 @@ public class LwLibMainPlugin extends BasePlugin {
      * @return void
      */
     private void initConfig(){
-        LwLibDefaultConfig defaultConfig = new LwLibDefaultConfig();
+        //LwLibDefaultConfig defaultConfig = new LwLibDefaultConfig();
     }
 }

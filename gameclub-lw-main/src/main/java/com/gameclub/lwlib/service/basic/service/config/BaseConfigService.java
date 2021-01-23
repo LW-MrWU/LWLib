@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class BaseConfigService <T extends BaseConfig> {
     protected BasePlugin basePlugin;
-    private Map<String, BaseConfig> configs = new HashMap<String, BaseConfig>();
+    private Map<String, T> configs = new HashMap<String, T>();
 
     /**
      * 构造函数
@@ -98,5 +98,18 @@ public class BaseConfigService <T extends BaseConfig> {
             tempresult = (T)tempconfig;
         }
         return tempresult;
+    }
+
+    /**
+     * 重载所有配置文件
+     * @author lw
+     * @date 2021/1/23
+     * @param []
+     * @return void
+     */
+    public void reloadAll(){
+        for (T config : configs.values()){
+            config.reload();
+        }
     }
 }

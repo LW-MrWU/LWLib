@@ -114,8 +114,7 @@ public abstract class BasePlugin extends JavaPlugin {
         if(!flag){
             BasePlugin tempPlugin = this;
             tempPlugin.setEnabled(false);
-            String failLoad = baseLanguageService.getLanguage(BaseSysMsgEnum.FAIL_LOAD.name(), BaseSysMsgEnum.FAIL_LOAD.getValue());
-            this.baseLogService.warning(failLoad);
+            this.baseLogService.warningByLanguage(BaseSysMsgEnum.FAIL_LOAD.name(), BaseSysMsgEnum.FAIL_LOAD.getValue());
         }
     }
 

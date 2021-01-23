@@ -1,5 +1,6 @@
 package com.gameclub.lwlib.model.config;
 
+import com.gameclub.lwlib.model.enumModel.BaseLanguageEnum;
 import com.gameclub.lwlib.model.enumModel.BaseSysMsgEnum;
 import com.gameclub.lwlib.service.basic.service.plugin.BasePlugin;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -57,11 +58,9 @@ public abstract class BaseConfig<T extends BasePlugin> {
                 try{
                     Files.copy(inputStream, this.file.toPath(), new CopyOption[0]);
                 }catch (IOException e){
-                    String msg = this.basePlugin.getBaseLanguageService().getLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
-                    this.basePlugin.getBaseLogService().info(msg);
+                    this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
                 }
-                String msg = this.basePlugin.getBaseLanguageService().getLanguage(BaseSysMsgEnum.CONFIG_NOT_FOUND.name(), BaseSysMsgEnum.CONFIG_NOT_FOUND.getValue(), fileName);
-                this.basePlugin.getBaseLogService().info(msg);
+                this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_NOT_FOUND.name(), BaseSysMsgEnum.CONFIG_NOT_FOUND.getValue(), fileName);
             }else{
                 if(!createConfig()){
                     this.init = false;
@@ -98,6 +97,7 @@ public abstract class BaseConfig<T extends BasePlugin> {
     public void reload() {
         if(this.isInit()) {
             this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
+            this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_RELOAD_SUCCESS.name(), BaseSysMsgEnum.CONFIG_RELOAD_SUCCESS.getValue(), this.fileName);
         }
     }
 

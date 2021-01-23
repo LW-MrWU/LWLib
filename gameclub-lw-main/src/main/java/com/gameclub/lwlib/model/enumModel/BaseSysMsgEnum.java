@@ -8,15 +8,17 @@ package com.gameclub.lwlib.model.enumModel;
 public enum BaseSysMsgEnum {
 
     //无权限提醒
-    COMMAND_PERMISSIONDENIEDMESSAGE("&cYou do not have permission exec to:{0}."),
+    COMMAND_NO_PERMISSION("&cYou do not have permission exec to:{0}."),
     //不属于命令执行范围，如玩家无法执行控制台命令，控制台无法执行玩家的命令
-    COMMAND_NOCOMMANDSENDERTYPEMESSAGE("&cYour terminal does not meet this requirement."),
+    COMMAND_SENDERTYPE_ERROR("&cYour terminal does not meet this requirement."),
     //成功加载插件
     SUCCESS_LOAD("&aplugin load success."),
     //加载插件失败
     FAIL_LOAD("&cplugin load failure."),
     //配置文件未找到
     CONFIG_NOT_FOUND("&bFile:{0} not found! Creating a new one"),
+    //配置重载成功
+    CONFIG_RELOAD_SUCCESS("&aConfig:{0} reload success."),
     //配置文件保存异常
     CONFIG_SAVE_EXCEPTION("&cCould not save config to {0} exception:{1}");
 

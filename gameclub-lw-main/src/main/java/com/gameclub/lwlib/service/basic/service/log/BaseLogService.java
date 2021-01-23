@@ -44,4 +44,28 @@ public class BaseLogService {
         String reLog = this.basePlugin.getBaseUtilsService().chatColorCodes(log);
         this.basePlugin.getLogger().warning(reLog);
     }
+
+    /**
+     * 根据语言配置打印info日志
+     * @author lw
+     * @date 2021/1/16
+     * @param [log]
+     * @return void
+     */
+    public void infoByLanguage(String key,String defualt,String ...prms){
+        String log = this.basePlugin.getBaseLanguageService().getLanguage(key, defualt, prms);
+        this.basePlugin.getLogger().info(log);
+    }
+
+    /**
+     * 根据语言配置打印warning日志
+     * @author lw
+     * @date 2021/1/16
+     * @param [log]
+     * @return void
+     */
+    public void warningByLanguage(String key,String defualt,String ...prms){
+        String log = this.basePlugin.getBaseLanguageService().getLanguage(key, defualt, prms);
+        this.basePlugin.getLogger().warning(log);
+    }
 }

@@ -1,4 +1,4 @@
-#语言配置
-#language configuration
+#语言配置 需重启
+#language configuration, restart server
 #zh_CN、zh_FT、en_US
 lang: zh_CN

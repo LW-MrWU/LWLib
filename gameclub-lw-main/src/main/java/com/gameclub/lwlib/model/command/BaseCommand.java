@@ -96,7 +96,7 @@ public abstract class BaseCommand implements TabExecutor {
         //判断命令对象
         boolean isCommandSenderType = checkCommandSenderType(commandSender, commandSenderType());
         if(!isCommandSenderType){
-            commandSender.sendMessage(ChatColor.RED + BaseSysMsgEnum.COMMAND_NOCOMMANDSENDERTYPEMESSAGE.getValue());
+            commandSender.sendMessage(ChatColor.RED + BaseSysMsgEnum.COMMAND_SENDERTYPE_ERROR.getValue());
             return true;
         }
 

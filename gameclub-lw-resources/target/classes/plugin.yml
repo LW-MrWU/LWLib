@@ -1,10 +1,12 @@
-name: LWMcScaffold
+name: LWLib
 author: LW-MrWU
 
 website: http://www.gameclub.vip
-description: LWMcScaffold 是一个前置脚手架服务
+description: LWLib is a scaffold service
 
-main: com.gameclub.lw.basic.service.plugin.OnEnablePlugin
+main: com.gameclub.lwlib.llb.LwLibMainPlugin
 version: 1.0
+api-version: 1.16
 
 load: startup
+database: false

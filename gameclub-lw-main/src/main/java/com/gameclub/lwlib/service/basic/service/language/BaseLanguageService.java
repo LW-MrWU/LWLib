@@ -32,7 +32,6 @@ public class BaseLanguageService {
      * @return java.lang.String
      */
     public String getLanguage(String key,String defualt,String ...prms) {
-        String lang = BaseLanguageConfig.getConfigName();
         BaseConfig baseLanguageConfig = this.basePlugin.getBaseConfigService().getConfig(BaseLanguageConfig.getConfigName());
 
         String language = null;
