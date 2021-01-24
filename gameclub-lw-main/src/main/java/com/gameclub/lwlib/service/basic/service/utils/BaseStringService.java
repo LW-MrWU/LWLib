@@ -6,9 +6,9 @@ import org.bukkit.ChatColor;
 /**
  * @author lw
  * @date 创建时间 2021/1/19 13:58
- * @description 公共方法服务
+ * @description 字符串公共服务
  */
-public class BaseUtilsService {
+public class BaseStringService {
     protected BasePlugin basePlugin;
 
     /**
@@ -18,7 +18,7 @@ public class BaseUtilsService {
      * @param [basePlugin]
      * @return
      */
-    public BaseUtilsService(BasePlugin basePlugin){
+    public BaseStringService(BasePlugin basePlugin){
         this.basePlugin = basePlugin;
     }
 
@@ -49,7 +49,7 @@ public class BaseUtilsService {
                 tempString = tempString.replace(holder, String.valueOf(prms[i]));
             }
         }
-        String reTempString = this.basePlugin.getBaseUtilsService().chatColorCodes(tempString);
+        String reTempString = this.basePlugin.getBaseStringService().chatColorCodes(tempString);
         return reTempString;
     }
 

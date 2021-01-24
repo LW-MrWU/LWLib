@@ -1,4 +1,4 @@
-COMMAND_NO_PERMISSION: '&cYou do not have permission exec to:{0}.'
+COMMAND_NO_PERMISSION: '&cYou do not have permission exec this command.'
 COMMAND_SENDERTYPE_ERROR: '&cYour terminal does not meet this requirement.'
 SUCCESS_LOAD: '&aPlugin load success.'
 FAIL_LOAD: '&cPlugin load failure.'

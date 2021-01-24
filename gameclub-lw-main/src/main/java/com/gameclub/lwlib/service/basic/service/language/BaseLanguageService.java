@@ -43,7 +43,7 @@ public class BaseLanguageService {
         }else {
             language = defualt;
         }
-        language = this.basePlugin.getBaseUtilsService().substitutionPrms(language, prms);
+        language = this.basePlugin.getBaseStringService().substitutionPrms(language, prms);
         return language;
     }
 

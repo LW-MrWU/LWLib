@@ -43,7 +43,7 @@ public class BaseMessageService {
      * @return void
      */
     public void sendMessage(CommandSender commandSender,String message) {
-        String remessage = this.basePlugin.getBaseUtilsService().chatColorCodes(message);
+        String remessage = this.basePlugin.getBaseStringService().chatColorCodes(message);
         commandSender.sendMessage(remessage);
     }
 }

@@ -20,6 +20,7 @@ public class BaseLanguageConfig extends BaseConfig {
      */
     public BaseLanguageConfig(BasePlugin basePlugin, String fileName) {
         super(basePlugin, fileName, "languages");
+        setConfigName(basePlugin, this);
     }
 
     @Override

@@ -1,14 +1,15 @@
 package com.gameclub.lwlib.model.command;
 
+import com.gameclub.lwlib.llb.LwLibMainPlugin;
 import com.gameclub.lwlib.model.enumModel.BaseSysMsgEnum;
 import com.gameclub.lwlib.service.basic.service.plugin.BasePlugin;
 import com.gameclub.lwlib.model.enumModel.BaseCommandSenderType;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
@@ -18,8 +19,6 @@ import java.util.*;
  * @description 命令父类
  */
 public abstract class BaseCommand implements TabExecutor {
-    protected BasePlugin basePlugin;
-
     /**
      * 命令名
      */
@@ -41,21 +40,6 @@ public abstract class BaseCommand implements TabExecutor {
     private Map<String, BaseCommand> subCommandAliases = new HashMap<String, BaseCommand>();
 
     /**
-     * 命令权限
-     */
-    private String permission;
-
-    /**
-     * 命令可用对象
-     */
-    private BaseCommandSenderType commandSenderType = BaseCommandSenderType.ARBITRARLIY;
-
-    /**
-     * 命令帮助
-     */
-    private String usage;
-
-    /**
      * 构造函数
      * @author lw
      * @date 2021/1/20 18:30
@@ -63,19 +47,19 @@ public abstract class BaseCommand implements TabExecutor {
      * @return
      */
     public BaseCommand(String commandName){
-        this(null, commandName);
+        this(commandName, null);
     }
 
     /**
-     * 主命令构造函数
+     * 构造函数
      * @author lw
      * @date 2021/1/20 18:30
      * @param [commandName, basePlugin]
      * @return
      */
-    public BaseCommand(BasePlugin basePlugin, String commandName){
-        this.basePlugin = basePlugin;
+    public BaseCommand(String commandName, String commandLabel){
         this.commandName = commandName;
+        this.commandLabel = commandLabel;
     }
 
     /**
@@ -89,14 +73,23 @@ public abstract class BaseCommand implements TabExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         //判断权限节点
         if (getPermissionNode() != null && !commandSender.hasPermission(getPermissionNode())) {
-            commandSender.sendMessage(ChatColor.RED + "You don't have permission to do this!");
+            BasePlugin basePlugin = getBasePlugin();
+            if(getBasePlugin() == null){
+                LwLibMainPlugin.getInstance().getBaseMessageService().sendMessageByLanguage(commandSender, BaseSysMsgEnum.COMMAND_NO_PERMISSION.name(), BaseSysMsgEnum.COMMAND_NO_PERMISSION.getValue());
+            }else{
+                basePlugin.getBaseMessageService().sendMessageByLanguage(commandSender, BaseSysMsgEnum.COMMAND_NO_PERMISSION.name(), BaseSysMsgEnum.COMMAND_NO_PERMISSION.getValue());
+            }
             return true;
         }
 
         //判断命令对象
-        boolean isCommandSenderType = checkCommandSenderType(commandSender, commandSenderType());
-        if(!isCommandSenderType){
-            commandSender.sendMessage(ChatColor.RED + BaseSysMsgEnum.COMMAND_SENDERTYPE_ERROR.getValue());
+        if(getCommandSenderType() != null && !checkCommandSenderType(commandSender, getCommandSenderType())){
+            BasePlugin basePlugin = getBasePlugin();
+            if(getBasePlugin() == null){
+                LwLibMainPlugin.getInstance().getBaseMessageService().sendMessageByLanguage(commandSender, BaseSysMsgEnum.COMMAND_SENDERTYPE_ERROR.name(), BaseSysMsgEnum.COMMAND_SENDERTYPE_ERROR.getValue());
+            }else{
+                basePlugin.getBaseMessageService().sendMessageByLanguage(commandSender, BaseSysMsgEnum.COMMAND_SENDERTYPE_ERROR.name(), BaseSysMsgEnum.COMMAND_SENDERTYPE_ERROR.getValue());
+            }
             return true;
         }
 
@@ -161,6 +154,7 @@ public abstract class BaseCommand implements TabExecutor {
         //获取自定义tab列表
         List<String> result = onTabComplete(commandSender, args);
         //默认tab列表
+
         if (result == null && length == 1) {
             List<String> subCommandsKeyList = getPermissionSubCommandsKeyList(commandSender);
             List<String> subCommandAliasesKeyList = getPermissionSubCommandAliasesKeyList(commandSender);
@@ -170,6 +164,15 @@ public abstract class BaseCommand implements TabExecutor {
             }
             if(subCommandAliasesKeyList != null && subCommandAliasesKeyList.size() > 0){
                 result.addAll(subCommandAliasesKeyList);
+            }
+            //若无输出则输出在线玩家列表
+            if(result == null || result.size() <= 0){
+                List<String> userNames = new ArrayList<>();
+                List<Player> playerList = LwLibMainPlugin.getInstance().getBasePlayerService().getOnlinePlayerList();
+                playerList.forEach(player -> {
+                    userNames.add(player.getName());
+                });
+                return userNames;
             }
         }
 
@@ -196,6 +199,15 @@ public abstract class BaseCommand implements TabExecutor {
     public abstract List<String> onTabComplete(CommandSender commandSender, String[] args);
 
     /**
+     * 获取主函数对象
+     * @author lw
+     * @date 2021/1/24
+     * @param []
+     * @return java.lang.String
+     */
+    public abstract BasePlugin getBasePlugin();
+
+    /**
      * 自定义权限节点
      * @author lw
      * @date 2021/1/21 14:53
@@ -211,7 +223,16 @@ public abstract class BaseCommand implements TabExecutor {
      * @param []
      * @return com.gameclub.model.command.BaseCommandSenderType
      */
-    public abstract BaseCommandSenderType commandSenderType();
+    public abstract BaseCommandSenderType getCommandSenderType();
+
+    /**
+     * 自定义帮助说明
+     * @author lw
+     * @date 2021/1/24
+     * @param []
+     * @return java.lang.String
+     */
+    public abstract String getUsageHelp();
 
     /**
      * 获取所有子命令list列表
@@ -265,7 +286,7 @@ public abstract class BaseCommand implements TabExecutor {
         List<String> list = new ArrayList<>();
         for (BaseCommand command : subCommandAliases.values()){
             if(checkPermission(commandSender, command)){
-                list.add(command.getCommandName());
+                list.add(command.getCommandLabel());
             }
         }
         return list;
@@ -323,7 +344,7 @@ public abstract class BaseCommand implements TabExecutor {
      * @return boolean
      */
     public boolean checkPermission(CommandSender sender, BaseCommand baseCommand) {
-        String permission = baseCommand.getPermission();
+        String permission = baseCommand.getPermissionNode();
         if(StringUtils.isEmpty(permission) || sender.hasPermission(permission)){
             return true;
         }
@@ -337,7 +358,7 @@ public abstract class BaseCommand implements TabExecutor {
      * @param [sender, mainCommand]
      * @return void
      */
-    public <T extends BaseCommand> void showAllHelp(CommandSender sender, T mainCommand){
+    public <T extends BaseCommand> void showAllHelp(CommandSender sender, T mainCommand, BasePlugin basePlugin){
         List<String> helps = new ArrayList<String>();
 
         Map<String, BaseCommand> cmds = mainCommand.getSubCommands();
@@ -345,7 +366,7 @@ public abstract class BaseCommand implements TabExecutor {
         for(String key : keys) {
             BaseCommand baseCommand = cmds.get(key);
             if(this.checkPermission(sender, baseCommand) && mainCommand.checkCommandSenderType(sender, baseCommand.getCommandSenderType())) {
-                String uesAge = baseCommand.getUsage();
+                String uesAge = baseCommand.getUsageHelp();
                 if(!helps.contains(uesAge)) {
                     helps.add(uesAge);
                 }
@@ -353,7 +374,10 @@ public abstract class BaseCommand implements TabExecutor {
         }
 
         for(String help : helps) {
-            mainCommand.basePlugin.getBaseMessageService().sendMessage(sender, help);
+            if(StringUtils.isEmpty(help)){
+                continue;
+            }
+            basePlugin.getBaseMessageService().sendMessage(sender, help);
         }
     }
 
@@ -372,7 +396,7 @@ public abstract class BaseCommand implements TabExecutor {
         for(String key : keys) {
             BaseCommand baseCommand = cmds.get(key);
             if(this.checkPermission(sender, baseCommand) && this.checkCommandSenderType(sender, baseCommand.getCommandSenderType())) {
-                String uesAge = baseCommand.getUsage();
+                String uesAge = baseCommand.getUsageHelp();
                 if(!helps.contains(uesAge)) {
                     helps.add(uesAge);
                 }
@@ -380,6 +404,9 @@ public abstract class BaseCommand implements TabExecutor {
         }
 
         for(String help : helps) {
+            if(StringUtils.isEmpty(help)){
+                continue;
+            }
             mainPlugin.getBaseMessageService().sendMessage(sender, help);
         }
     }
@@ -426,29 +453,5 @@ public abstract class BaseCommand implements TabExecutor {
      */
     public void setCommandLabel(String commandLabel) {
         this.commandLabel = commandLabel;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
-    }
-
-    public BaseCommandSenderType getCommandSenderType() {
-        return commandSenderType;
-    }
-
-    public void setCommandSenderType(BaseCommandSenderType commandSenderType) {
-        this.commandSenderType = commandSenderType;
-    }
-
-    public String getUsage() {
-        return usage;
-    }
-
-    public void setUsage(String usage) {
-        this.usage = usage;
     }
 }

@@ -1,8 +1,10 @@
 package com.gameclub.lwlib.service.basic.service.plugin;
 
+import com.gameclub.lwlib.listener.BaseListener;
 import com.gameclub.lwlib.service.basic.service.config.BaseConfigService;
 import com.gameclub.lwlib.service.basic.service.log.BaseLogService;
-import com.gameclub.lwlib.service.basic.service.utils.BaseUtilsService;
+import com.gameclub.lwlib.service.basic.service.utils.BasePlayerService;
+import com.gameclub.lwlib.service.basic.service.utils.BaseStringService;
 import com.gameclub.lwlib.model.command.BaseCommand;
 import com.gameclub.lwlib.model.enumModel.BaseSysMsgEnum;
 import com.gameclub.lwlib.service.basic.service.language.BaseLanguageService;
@@ -25,62 +27,9 @@ public abstract class BasePlugin extends JavaPlugin {
 
     private BaseMessageService baseMessageService;
 
-    private BaseUtilsService baseUtilsService;
-
-    /**
-     * 基础日志服务
-     * @author lw
-     * @date 2021/1/16
-     * @param []
-     * @return com.gameclub.lw.biz.sevice.log.BaseLogService
-     */
-    public BaseLogService getBaseLogService() {
-        return baseLogService;
-    }
-
-    /**
-     * 基础配置文件服务
-     * @author lw
-     * @date 2021/1/18 17:35
-     * @param []
-     * @return BaseConfigService
-     */
-    public BaseConfigService getBaseConfigService() {
-        return baseConfigService;
-    }
-
-    /**
-     * 基础语言服务
-     * @author lw
-     * @date 2021/1/18 17:35
-     * @param []
-     * @return BaseLanguageService
-     */
-    public BaseLanguageService getBaseLanguageService() {
-        return baseLanguageService;
-    }
-
-    /**
-     * 基础消息服务
-     * @author lw
-     * @date 2021/1/18 17:58
-     * @param []
-     * @return BaseMessageService
-     */
-    public BaseMessageService getBaseMessageService() {
-        return baseMessageService;
-    }
-
-    /**
-     * 基础公共服务
-     * @author lw
-     * @date 2021/1/19 14:03
-     * @param []
-     * @return BaseUtilsService
-     */
-    public BaseUtilsService getBaseUtilsService() {
-        return baseUtilsService;
-    }
+    //utils
+    private BaseStringService baseStringService;
+    private BasePlayerService basePlayerService;
 
     /**
      * 初始化服务
@@ -94,7 +43,8 @@ public abstract class BasePlugin extends JavaPlugin {
         baseConfigService = new BaseConfigService(this);
         baseLanguageService = new BaseLanguageService(this);
         baseMessageService = new BaseMessageService(this);
-        baseUtilsService = new BaseUtilsService(this);
+        baseStringService = new BaseStringService(this);
+        basePlayerService = new BasePlayerService(this);
     }
 
     /**
@@ -160,4 +110,82 @@ public abstract class BasePlugin extends JavaPlugin {
         pluginCommand.setExecutor(baseCommand);
         pluginCommand.setTabCompleter(baseCommand);
     }
+
+    /**
+     * 注册监听
+     * @author lw
+     * @date 2021/1/24
+     * @param [listener]
+     * @return void
+     */
+    public <T extends BaseListener> void registerListener(T listener) {
+        getServer().getPluginManager().registerEvents(listener, this);
+    }
+
+    /**
+     * 基础日志服务
+     * @author lw
+     * @date 2021/1/16
+     * @param []
+     * @return com.gameclub.lw.biz.sevice.log.BaseLogService
+     */
+    public BaseLogService getBaseLogService() {
+        return baseLogService;
+    }
+
+    /**
+     * 基础配置文件服务
+     * @author lw
+     * @date 2021/1/18 17:35
+     * @param []
+     * @return BaseConfigService
+     */
+    public BaseConfigService getBaseConfigService() {
+        return baseConfigService;
+    }
+
+    /**
+     * 基础语言服务
+     * @author lw
+     * @date 2021/1/18 17:35
+     * @param []
+     * @return BaseLanguageService
+     */
+    public BaseLanguageService getBaseLanguageService() {
+        return baseLanguageService;
+    }
+
+    /**
+     * 基础消息服务
+     * @author lw
+     * @date 2021/1/18 17:58
+     * @param []
+     * @return BaseMessageService
+     */
+    public BaseMessageService getBaseMessageService() {
+        return baseMessageService;
+    }
+
+    /**
+     * 字符串公共服务
+     * @author lw
+     * @date 2021/1/19 14:03
+     * @param []
+     * @return BaseStringService
+     */
+    public BaseStringService getBaseStringService() {
+        return baseStringService;
+    }
+
+    /**
+     * 玩家公共服务
+     * @author lw
+     * @date 2021/1/19 14:03
+     * @param []
+     * @return BaseStringService
+     */
+    public BasePlayerService getBasePlayerService() {
+        return basePlayerService;
+    }
+
 }

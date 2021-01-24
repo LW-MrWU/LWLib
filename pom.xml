@@ -24,6 +24,7 @@
 
     <properties>
         <!-- associate begin-->
+        <!-- https://hub.spigotmc.org/nexus/content/repositories/snapshots/org -->
         <spigot.version>1.16.5-R0.1-SNAPSHOT</spigot.version>
         <!--<bukkit.version>1.16.5-R0.1-SNAPSHOT</bukkit.version>-->
         <java.version>1.8</java.version>

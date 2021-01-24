@@ -8,7 +8,7 @@ package com.gameclub.lwlib.model.enumModel;
 public enum BaseSysMsgEnum {
 
     //无权限提醒
-    COMMAND_NO_PERMISSION("&cYou do not have permission exec to:{0}."),
+    COMMAND_NO_PERMISSION("&cYou do not have permission exec this command."),
     //不属于命令执行范围，如玩家无法执行控制台命令，控制台无法执行玩家的命令
     COMMAND_SENDERTYPE_ERROR("&cYour terminal does not meet this requirement."),
     //成功加载插件

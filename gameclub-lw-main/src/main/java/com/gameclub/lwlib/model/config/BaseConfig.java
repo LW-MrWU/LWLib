@@ -15,7 +15,7 @@ import java.nio.file.Files;
  * @date 创建时间 2021/1/18 14:51
  * @description 所有配置文件的父类
  */
-public abstract class BaseConfig<T extends BasePlugin> {
+public abstract class BaseConfig <T extends BasePlugin> {
     private T basePlugin;
     private File file;
     private FileConfiguration fileConfiguration;
@@ -48,7 +48,6 @@ public abstract class BaseConfig<T extends BasePlugin> {
         this.folder = folder;
 
         String pluginRealFilePath = this.basePlugin.getBaseConfigService().getPluginRealFilePath(this);
-        setConfigName(pluginRealFilePath);
         this.file = new File(pluginRealFilePath);
 
         if(!file.exists()){
@@ -216,11 +215,12 @@ public abstract class BaseConfig<T extends BasePlugin> {
         return basePlugin;
     }
 
-    public static String getConfigName() {
-        return configName;
+    public static <T extends BaseConfig> String getConfigName() {
+        return T.configName;
     }
 
-    public static void setConfigName(String configName) {
-        BaseConfig.configName = configName;
+    public static <T extends BaseConfig> void setConfigName(BasePlugin basePlugin, T config) {
+        String pluginRealFilePath = basePlugin.getBaseConfigService().getPluginRealFilePath(config);
+        T.configName = pluginRealFilePath;
     }
 }

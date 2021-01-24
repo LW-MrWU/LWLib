@@ -1,4 +1,4 @@
-COMMAND_NO_PERMISSION: '&c您没有权限执行:{0}.'
+COMMAND_NO_PERMISSION: '&c您没有权限执行该命令.'
 COMMAND_SENDERTYPE_ERROR: '&c该命令不能在此处执行.'
 SUCCESS_LOAD: '&a成功加载插件'
 FAIL_LOAD: '&c加载插件失败'
