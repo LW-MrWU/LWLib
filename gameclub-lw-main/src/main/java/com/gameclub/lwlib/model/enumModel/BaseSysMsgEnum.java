@@ -20,7 +20,9 @@ public enum BaseSysMsgEnum {
     //配置重载成功
     CONFIG_RELOAD_SUCCESS("&aConfig:{0} reload success."),
     //配置文件保存异常
-    CONFIG_SAVE_EXCEPTION("&cCould not save config to {0} exception:{1}");
+    CONFIG_SAVE_EXCEPTION("&cCould not save config to {0} exception:{1}"),
+    //mysql异常
+    MYSQL_EXCEPTION("&cMysql exception detail:{0}");
 
     private String value;
 

@@ -2,6 +2,7 @@ package com.gameclub.lwlib.service.basic.service.plugin;
 
 import com.gameclub.lwlib.listener.BaseListener;
 import com.gameclub.lwlib.service.basic.service.config.BaseConfigService;
+import com.gameclub.lwlib.service.basic.service.database.mysql.BaseMysqlService;
 import com.gameclub.lwlib.service.basic.service.log.BaseLogService;
 import com.gameclub.lwlib.service.basic.service.utils.BasePlayerService;
 import com.gameclub.lwlib.service.basic.service.utils.BaseStringService;
@@ -9,6 +10,7 @@ import com.gameclub.lwlib.model.command.BaseCommand;
 import com.gameclub.lwlib.model.enumModel.BaseSysMsgEnum;
 import com.gameclub.lwlib.service.basic.service.language.BaseLanguageService;
 import com.gameclub.lwlib.service.basic.service.message.BaseMessageService;
+import org.bukkit.Server;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -31,6 +33,9 @@ public abstract class BasePlugin extends JavaPlugin {
     private BaseStringService baseStringService;
     private BasePlayerService basePlayerService;
 
+    //mysql
+    private BaseMysqlService baseMysqlService;
+
     /**
      * 初始化服务
      * @author lw
@@ -45,6 +50,8 @@ public abstract class BasePlugin extends JavaPlugin {
         baseMessageService = new BaseMessageService(this);
         baseStringService = new BaseStringService(this);
         basePlayerService = new BasePlayerService(this);
+
+        baseMysqlService = new BaseMysqlService(this);
     }
 
     /**
@@ -123,6 +130,17 @@ public abstract class BasePlugin extends JavaPlugin {
     }
 
     /**
+     * 获取服务server
+     * @author lw
+     * @date 2021/1/25 11:42
+     * @param []
+     * @return org.bukkit.Server
+     */
+    public Server getBaseServer(){
+        return this.getServer();
+    }
+
+    /**
      * 基础日志服务
      * @author lw
      * @date 2021/1/16
@@ -186,6 +204,17 @@ public abstract class BasePlugin extends JavaPlugin {
      */
     public BasePlayerService getBasePlayerService() {
         return basePlayerService;
+    }
+
+    /**
+     * 基础数据库服务
+     * @author lw
+     * @date 2021/1/25 14:48
+     * @param []
+     * @return com.gameclub.lwlib.service.basic.service.database.mysql.BaseMysqlService
+     */
+    public BaseMysqlService getBaseMysqlService() {
+        return baseMysqlService;
     }
 
 }
