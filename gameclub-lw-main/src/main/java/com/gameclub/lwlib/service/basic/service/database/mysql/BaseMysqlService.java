@@ -6,6 +6,8 @@ import com.gameclub.lwlib.service.basic.service.plugin.BasePlugin;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -29,6 +31,9 @@ public class BaseMysqlService<T extends BasePlugin> {
     private static PreparedStatement preparedStatement;
     private static Statement statement;
     private static ResultSet resultSet;
+
+
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 构造函数
@@ -84,7 +89,7 @@ public class BaseMysqlService<T extends BasePlugin> {
             // 注册 JDBC 驱动
             Class.forName(JDBC_DRIVER);
 
-            String url = "jdbc:mysql://" + ip + ":" + port + "/" + database + "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8";
+            String url = "jdbc:mysql://" + ip + ":" + port + "/" + database + "?useSSL=false&characterEncoding=utf-8&allowPublicKeyRetrieval=true&serverTimezone=GMT%2B8";
             connection = DriverManager.getConnection(url, user, password);
 
         }catch(SQLException e){
@@ -199,8 +204,8 @@ public class BaseMysqlService<T extends BasePlugin> {
             return false;
         }
 
-        String sql = "CREATE TABLE `" + tablePrefix + table + "` ("
-                + " `id` bigint(19) NOT NULL,"
+        String sql = "CREATE TABLE IF NOT EXISTS `" + tablePrefix + table + "` ("
+                + " `id` bigint(19) UNSIGNED NOT NULL AUTO_INCREMENT,"
                 + " `CREATED_TIME` timestamp(6) NULL DEFAULT NULL,"
                 + " `UPDATED_TIME` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),";
 
@@ -223,13 +228,55 @@ public class BaseMysqlService<T extends BasePlugin> {
             }
             sql += ",";
         }
-        sql += " PRIMARY KEY (`id`) USING BTREE )ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8";
+        sql += " PRIMARY KEY (`id`) USING BTREE )ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8";
 
         try{
             statement = connection.createStatement();
             int result = statement.executeUpdate(sql);
             closeConnection();
             if(result == 0){
+                return true;
+            }
+            return false;
+        }catch (SQLException e){
+            basePlugin.getBaseLogService().warningByLanguage(BaseSysMsgEnum.MYSQL_EXCEPTION.name(), BaseSysMsgEnum.MYSQL_EXCEPTION.getValue(), e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 自动插入数据
+     * @author lw
+     * @date 2021/1/26 13:34
+     * @param [table, map]
+     * @return boolean
+     */
+    public boolean insert(String table, Map<String, Object> map){
+        if(!isMysqlConnect() || map.size() <= 0){
+            return false;
+        }
+
+        String sql = "INSERT INTO `" + tablePrefix + table + "` (CREATED_TIME,";
+
+        for (String str : map.keySet()){
+            sql += str + ",";
+        }
+        sql = sql.substring(0, sql.length()-1) + ") VALUES('" + Timestamp.valueOf(simpleDateFormat.format(new Date())) + "',";
+
+        for (Object obj : map.values()){
+            if(obj instanceof String){
+                sql += "'" + obj + "',";
+            }else{
+                sql += obj + ",";
+            }
+        }
+        sql = sql.substring(0, sql.length()-1) + ")";
+
+        try{
+            statement = connection.createStatement();
+            int result = statement.executeUpdate(sql);
+            closeConnection();
+            if(result > 0){
                 return true;
             }
             return false;

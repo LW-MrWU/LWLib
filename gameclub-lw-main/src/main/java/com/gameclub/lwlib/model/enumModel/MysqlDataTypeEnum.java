@@ -11,8 +11,8 @@ public enum MysqlDataTypeEnum {
     MEDIUMINT("MEDIUMINT", 0),
     INT("INT", 0),
     BIGINT("BIGINT", 0),
-    FLOAT("FLOAT", 4),
-    DOUBLE("DOUBLE", 4),
+    FLOAT("FLOAT", 10),
+    DOUBLE("DOUBLE", 10),
     DECIMAL("DECIMAL", 10),
 
     DATE("DATE", 0),
