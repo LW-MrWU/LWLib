@@ -1,1 +1,2 @@
-# mc-scaffold
+# mc插件开发前置框架
+
