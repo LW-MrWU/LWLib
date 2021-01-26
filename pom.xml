@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.gameclub.lw</groupId>
+    <groupId>vip.gameclub.lw</groupId>
     <artifactId>LWLib</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -21,6 +21,34 @@
         <module>gameclub-lw-utils</module>
         <module>gameclub-lw-test</module>
     </modules>
+
+    <!-- 声明license -->
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <!-- “采购”信息，主要是自己项目的git仓库 -->
+    <scm>
+        <tag>main</tag>
+        <url>git@github.com:LW-MrWU/LWLib.git</url>
+        <connection>scm:git:git@github.com:LW-MrWU/LWLib.git</connection>
+        <developerConnection>scm:git:git@github.com:LW-MrWU/LWLib.git</developerConnection>
+    </scm>
+
+    <!-- 开发者信息 -->
+    <developers>
+        <developer>
+            <name>LW-MrWU</name>
+            <email>wukunzuiai@gmail.com</email>
+        </developer>
+    </developers>
+
+    <!-- 项目地址 -->
+    <url>https://github.com/LW-MrWU/LWLib</url>
+
 
     <properties>
         <!-- associate begin-->
