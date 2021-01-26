@@ -1,8 +1,8 @@
 package com.gameclub.lwlib.model.config;
 
-import com.gameclub.lwlib.model.enumModel.BaseLanguageEnum;
 import com.gameclub.lwlib.model.enumModel.BaseSysMsgEnum;
 import com.gameclub.lwlib.service.basic.service.plugin.BasePlugin;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -50,29 +50,101 @@ public abstract class BaseConfig <T extends BasePlugin> {
         String pluginRealFilePath = this.basePlugin.getBaseConfigService().getPluginRealFilePath(this);
         this.file = new File(pluginRealFilePath);
 
+        String sysRealFilePath = this.basePlugin.getBaseConfigService().getSysRealFilePath(this);
+
         if(!file.exists()){
-            this.file.getParentFile().mkdirs();
-            String sysRealFilePath = this.basePlugin.getBaseConfigService().getSysRealFilePath(this);
-            InputStream inputStream = this.basePlugin.getResource(sysRealFilePath);
-
-            if(inputStream != null){
-                try{
-                    Files.copy(inputStream, this.file.toPath(), new CopyOption[0]);
-                }catch (IOException e){
-                    this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
-                }
-                this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_NOT_FOUND.name(), BaseSysMsgEnum.CONFIG_NOT_FOUND.getValue(), fileName);
-            }else{
-                if(!createConfig()){
-                    this.init = false;
-                    return;
-                }
+            if(!fileNotExist(sysRealFilePath)){
+                return;
             }
+        }else{
+            configVersionHandler(sysRealFilePath);
         }
-
         this.loadFileConfig();
         this.load();
         this.basePlugin.getBaseConfigService().registerConfig(this);
+    }
+
+    /**
+     * 配置文件找不到时的操作
+     * @author lw
+     * @date 2021/1/26 17:49
+     * @param [sysRealFilePath]
+     * @return boolean
+     */
+    private boolean fileNotExist(String sysRealFilePath){
+        InputStream inputStream = this.basePlugin.getResource(sysRealFilePath);
+        this.file.getParentFile().mkdirs();
+
+        if(inputStream != null){
+            try{
+                Files.copy(inputStream, this.file.toPath(), new CopyOption[0]);
+                inputStream.close();
+            }catch (IOException e){
+                this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
+            }
+            this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_NOT_FOUND.name(), BaseSysMsgEnum.CONFIG_NOT_FOUND.getValue(), fileName);
+        }else{
+            if(!createConfig()){
+                this.init = false;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 处理配置version
+     * version不对应时，将系统文件覆盖到服务器插件文件
+     * @author lw
+     * @date 2021/1/26 17:50
+     * @param [sysRealFilePath]
+     * @return void
+     */
+    private void configVersionHandler(String sysRealFilePath){
+        InputStream inputStream = this.basePlugin.getResource(sysRealFilePath);
+        //判断config版本
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String sysVersion = "";
+        try{
+            String line;
+            while((line = bufferedReader.readLine()) != null) {
+                //过滤掉注释行数据
+                if(!line.startsWith("#")) {
+                    String [] strings = line.split(":");
+                    if(strings.length > 1) {
+                        String key = strings[0];
+                        if("version".equalsIgnoreCase(key)){
+                            sysVersion = strings[1].trim();
+                            break;
+                        }
+                    }
+                }
+            }
+            bufferedReader.close();
+            inputStream.close();
+        }catch (IOException e){
+            this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
+        }
+        if(StringUtils.isNotEmpty(sysVersion)){
+            //判断系统文件version与服务器plugin文件夹中config配置内version是否一致，不一致则更新覆盖plugin文件夹中config内容
+            this.loadFileConfig();
+            String version = fileConfiguration.getString("version");
+            if(StringUtils.isNotEmpty(version) && !sysVersion.equalsIgnoreCase(version)){
+                try{
+                    FileOutputStream fileOutputStream = new FileOutputStream(file);
+                    InputStream is = this.basePlugin.getResource(sysRealFilePath);
+                    byte[] bytes = new byte[1024];
+                    int len = -1;
+                    while((len = is.read(bytes)) != -1){
+                        fileOutputStream.write(bytes,0,len);
+                    }
+                    is.close();
+                    fileOutputStream.close();
+                }catch (IOException e){
+                    this.basePlugin.getBaseLogService().infoByLanguage(BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.name(), BaseSysMsgEnum.CONFIG_SAVE_EXCEPTION.getValue(), fileName, e.getMessage());
+                }
+            }
+        }
     }
 
     /**
