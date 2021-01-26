@@ -194,6 +194,7 @@ public class BaseMysqlService<T extends BasePlugin> {
 
     /**
      * 自动创建表单
+     * 框架已自带id、createTime、updateTime
      * @author lw
      * @date 2021/1/26 12:17
      * @param [table, map]
@@ -246,6 +247,7 @@ public class BaseMysqlService<T extends BasePlugin> {
 
     /**
      * 自动插入数据
+     * 框架自带id、createTime、updateTime不用处理
      * @author lw
      * @date 2021/1/26 13:34
      * @param [table, map]
@@ -271,6 +273,114 @@ public class BaseMysqlService<T extends BasePlugin> {
             }
         }
         sql = sql.substring(0, sql.length()-1) + ")";
+
+        try{
+            statement = connection.createStatement();
+            int result = statement.executeUpdate(sql);
+            closeConnection();
+            if(result > 0){
+                return true;
+            }
+            return false;
+        }catch (SQLException e){
+            basePlugin.getBaseLogService().warningByLanguage(BaseSysMsgEnum.MYSQL_EXCEPTION.name(), BaseSysMsgEnum.MYSQL_EXCEPTION.getValue(), e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 根据条件查询数据表
+     * map为null时整表搜索
+     * @author lw
+     * @date 2021/1/26 14:49
+     * @param [table, map]
+     * @return java.sql.ResultSet
+     */
+    public ResultSet select(String table, Map<String, Object> map){
+        if(!isMysqlConnect()){
+            return null;
+        }
+
+        String sql = "SELECT * FROM `" + tablePrefix + table + "` ";
+
+        if(map != null && map.size()>0){
+            sql += "WHERE ";
+            Iterator<Map.Entry<String,Object>> iterator = map.entrySet().iterator();
+            while (iterator.hasNext()){
+                Map.Entry<String, Object> entry = iterator.next();
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                if(value instanceof String){
+                    sql += " and " + key + "=" + "'" + value + "'";
+                }else{
+                    sql += " and " + key + "="+ value;
+                }
+            }
+            sql = sql.replaceFirst(" and ", "");
+        }
+
+        try{
+            statement = connection.createStatement();
+            return statement.executeQuery(sql);
+        }catch (SQLException e){
+            basePlugin.getBaseLogService().warningByLanguage(BaseSysMsgEnum.MYSQL_EXCEPTION.name(), BaseSysMsgEnum.MYSQL_EXCEPTION.getValue(), e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 根据id删除数据
+     * @author lw
+     * @date 2021/1/26 14:51
+     * @param [table, id]
+     * @return boolean
+     */
+    public boolean deleteById(String table, Long id){
+        if(!isMysqlConnect() || id<=0){
+            return false;
+        }
+        String sql = "DELETE FROM `" + tablePrefix + table + "` WHERE id=" + id;
+
+        try{
+            statement = connection.createStatement();
+            int result = statement.executeUpdate(sql);
+            closeConnection();
+            if(result > 0){
+                return true;
+            }
+            return false;
+        }catch (SQLException e){
+            basePlugin.getBaseLogService().warningByLanguage(BaseSysMsgEnum.MYSQL_EXCEPTION.name(), BaseSysMsgEnum.MYSQL_EXCEPTION.getValue(), e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 根据id更新数据
+     * @author lw
+     * @date 2021/1/26 15:28
+     * @param [table, id, map]
+     * @return boolean
+     */
+    public boolean updateById(String table, Long id, Map<String, Object> map){
+        if(!isMysqlConnect() || id<=0 || map.size()<=0){
+            return false;
+        }
+
+        String sql = "UPDATE `" + tablePrefix + table + "` SET ";
+        Iterator<Map.Entry<String,Object>> iterator = map.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry<String, Object> entry = iterator.next();
+            String key = entry.getKey();
+            Object value = entry.getValue();
+            if(value instanceof String){
+                sql += key + "=" + "'" + value + "',";
+            }else{
+                sql += key + "="+ value + ",";
+            }
+        }
+        sql = sql.substring(0, sql.length()-1);
+        sql += " WHERE id=" + id;
 
         try{
             statement = connection.createStatement();
