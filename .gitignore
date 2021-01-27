@@ -32,13 +32,6 @@ hs_err_pid*
 .idea/vcs.xml
 .idea/*
 
-gameclub-lw-main/target/*
-gameclub-lw-resources/target/*
-gameclub-lw-utils/target/*
-gameclub-lw-test/target/*
+/target/*
 
 LWLib.iml
-gameclub-lw-main/gameclub-lw-main.iml
-gameclub-lw-resources/gameclub-lw-resources.iml
-gameclub-lw-utils/gameclub-lw-utils.iml
-gameclub-lw-test/gameclub-lw-test.iml

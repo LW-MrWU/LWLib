@@ -1,0 +1,12 @@
+name: LWLib
+author: LW-MrWU
+
+website: http://www.gameclub.vip
+description: LWLib is a scaffold service
+
+main: vip.gameclub.lwlib.llb.LwLibMainPlugin
+version: 1.0
+api-version: 1.16
+
+load: startup
+database: false
