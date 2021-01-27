@@ -41,10 +41,10 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/20 18:30
-     * @param [commandName 名称]
+     * @param commandName 命令名称
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/27 18:22
      */
     public BaseCommand(String commandName){
         this(commandName, null);
@@ -52,10 +52,11 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/20 18:30
-     * @param [commandName, basePlugin]
+     * @param commandName 命令名称
+     * @param commandLabel 命令别名
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/27 18:22
      */
     public BaseCommand(String commandName, String commandLabel){
         this.commandName = commandName;
@@ -64,10 +65,13 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 命令执行
-     * @author lw
-     * @date 2021/1/21 13:46
-     * @param [commandSender 发送命令的对象, command 被执行的指令, label 被执行指令的别名, args 该指令的自变量数组]
+     * @param commandSender 发送命令的对象
+     * @param command 被执行的指令
+     * @param label 被执行指令的别名
+     * @param args 该指令的自变量数组
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/27 18:23
      */
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
@@ -120,10 +124,13 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 命令补全
-     * @author lw
-     * @date 2021/1/21 13:48
-     * @param [commandSender 发送命令的对象, command 被执行的指令, label 被执行指令的别名, args 该指令的自变量数组]
+     * @param commandSender 发送命令的对象
+     * @param command 被执行的指令
+     * @param label 被执行指令的别名
+     * @param args 该指令的自变量数组
      * @return java.util.List<java.lang.String>
+     * @author LW-MrWU
+     * @date 2021/1/27 18:23
      */
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String label, String[] args) {
@@ -182,64 +189,66 @@ public abstract class BaseCommand implements TabExecutor {
     /**
      * 自定义命令执行
      * 已包含判断权限、命令执行对象、子命令、别名
-     * @author lw
-     * @date 2021/1/21 15:16
-     * @param [commandSender, args]
+     * @param commandSender 发送对象
+     * @param args 参数
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/27 18:24
      */
     public abstract boolean onCommand(CommandSender commandSender, String[] args);
 
     /**
      * 自定义命令补全 返回null则默认补全该命令subCommands、subCommandAliases
-     * @author lw
-     * @date 2021/1/21 13:49
-     * @param [sender, args]
+     * @param commandSender 发送对象
+     * @param args 参数
      * @return java.util.List<java.lang.String>
+     * @author LW-MrWU
+     * @date 2021/1/27 18:25
      */
     public abstract List<String> onTabComplete(CommandSender commandSender, String[] args);
 
     /**
      * 获取主函数对象
-     * @author lw
-     * @date 2021/1/24
-     * @param []
-     * @return java.lang.String
+     * @param  1
+     * @return vip.gameclub.lwlib.service.plugin.BasePlugin
+     * @author LW-MrWU
+     * @date 2021/1/27 18:25
      */
     public abstract BasePlugin getBasePlugin();
 
     /**
      * 自定义权限节点
-     * @author lw
-     * @date 2021/1/21 14:53
-     * @param []
+     * @param
      * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/27 18:26
      */
     public abstract String getPermissionNode();
 
     /**
      * 返回命令可用对象 null为ARBITRARLIY任意
-     * @author lw
-     * @date 2021/1/21 18:23
-     * @param []
-     * @return com.gameclub.model.command.BaseCommandSenderType
+     * @param
+     * @return vip.gameclub.lwlib.model.enumModel.BaseCommandSenderType
+     * @author LW-MrWU
+     * @date 2021/1/27 18:26
      */
     public abstract BaseCommandSenderType getCommandSenderType();
 
     /**
      * 自定义帮助说明
-     * @author lw
-     * @date 2021/1/24
-     * @param []
+     * @param  1
      * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/27 18:26
      */
     public abstract String getUsageHelp();
 
     /**
      * 获取所有子命令list列表
-     * @author lw
-     * @date 2021/1/20 13:57
-     * @param []
+     * @param  1
      * @return java.util.List<java.lang.String>
+     * @author LW-MrWU
+     * @date 2021/1/27 18:26
      */
     public List<String> getSubCommandsKeyList(){
         List<String> mapKeyList = new ArrayList<>(subCommands.keySet());
@@ -248,10 +257,10 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 获取所有有权限的子命令list列表
-     * @author lw
-     * @date 2021/1/21 17:17
-     * @param [commandSender]
+     * @param commandSender 发送对象
      * @return java.util.List<java.lang.String>
+     * @author LW-MrWU
+     * @date 2021/1/27 18:26
      */
     public List<String> getPermissionSubCommandsKeyList(CommandSender commandSender){
         List<String> list = new ArrayList<>();
@@ -265,10 +274,10 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 获取所有子命令(别名)list列表
-     * @author lw
-     * @date 2021/1/20 13:57
-     * @param []
+     * @param
      * @return java.util.List<java.lang.String>
+     * @author LW-MrWU
+     * @date 2021/1/27 18:27
      */
     public List<String> getSubCommandAliasesKeyList(){
         List<String> mapKeyList = new ArrayList<>(subCommandAliases.keySet());
@@ -277,10 +286,10 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 获取所有有权限的子命令(别名)list列表
-     * @author lw
-     * @date 2021/1/21 17:17
-     * @param [commandSender]
+     * @param commandSender 发送对象
      * @return java.util.List<java.lang.String>
+     * @author LW-MrWU
+     * @date 2021/1/27 18:27
      */
     public List<String> getPermissionSubCommandAliasesKeyList(CommandSender commandSender){
         List<String> list = new ArrayList<>();
@@ -294,10 +303,11 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 判断命令是否是命令发送方可使用的
-     * @author lw
-     * @date 2021/1/21 14:04
-     * @param [sender 命令发送方, baseCommandSenderType 命令可用对象]
+     * @param sender 命令发送方
+     * @param commandSenderType 命令可用对象
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/27 18:50
      */
     public boolean checkCommandSenderType(CommandSender sender, BaseCommandSenderType commandSenderType) {
         if(commandSenderType == null){
@@ -322,10 +332,10 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 辨别命令发送方类型
-     * @author lw
-     * @date 2021/1/21 14:05
-     * @param [sender]
-     * @return com.gameclub.model.command.BaseCommandSenderType
+     * @param sender 发送对象
+     * @return vip.gameclub.lwlib.model.enumModel.BaseCommandSenderType
+     * @author LW-MrWU
+     * @date 2021/1/27 18:50
      */
     public BaseCommandSenderType getSenderCommandSenderType(CommandSender sender) {
         BaseCommandSenderType senderCommandSenderType = BaseCommandSenderType.PLAYER;
@@ -338,10 +348,11 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 权限检查
-     * @author lw
-     * @date 2021/1/21 16:54
-     * @param [sender, baseCommand]
+     * @param sender 发送对象
+     * @param baseCommand 基础命令父类
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/27 18:51
      */
     public boolean checkPermission(CommandSender sender, BaseCommand baseCommand) {
         String permission = baseCommand.getPermissionNode();
@@ -353,10 +364,12 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 帮助命令(主命令下所有子命令的帮助提示)
-     * @author lw
-     * @date 2021/1/21 18:10
-     * @param [sender, mainCommand]
+     * @param sender 发送对象
+     * @param mainCommand 主命令类
+     * @param basePlugin 基础启动类
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/27 18:51
      */
     public <T extends BaseCommand> void showAllHelp(CommandSender sender, T mainCommand, BasePlugin basePlugin){
         List<String> helps = new ArrayList<String>();
@@ -383,10 +396,11 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 帮助命令(当前命令下所有子命令的帮助提示)
-     * @author lw
-     * @date 2021/1/21 17:01
-     * @param [sender]
+     * @param sender 发送对象
+     * @param mainPlugin 主启动类
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/27 18:51
      */
     public <T extends BasePlugin> void showHelp(CommandSender sender, T mainPlugin) {
         List<String> helps = new ArrayList<String>();
@@ -413,10 +427,10 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 添加子命令
-     * @author lw
-     * @date 2021/1/20 17:09
-     * @param [commands]
+     * @param commands 命令
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/27 18:52
      */
     public void addSubCommands(BaseCommand... commands) {
         for (BaseCommand baseCommand : commands){
@@ -446,10 +460,10 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 设置命令别名
-     * @author lw
-     * @date 2021/1/21 13:56
-     * @param [commandLabel]
+     * @param commandLabel 别名
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/27 18:52
      */
     public void setCommandLabel(String commandLabel) {
         this.commandLabel = commandLabel;
