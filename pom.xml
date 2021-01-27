@@ -81,8 +81,9 @@
     <!-- 声明license -->
     <licenses>
         <license>
-            <name>Mulan Permissive Software License，Version 1</name>
-            <url>http://license.coscl.org.cn/MulanPSL</url>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
@@ -141,11 +142,11 @@
             <distributionManagement>
                 <snapshotRepository>
                     <id>oss</id>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
                 </snapshotRepository>
                 <repository>
                     <id>oss</id>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
                 </repository>
             </distributionManagement>
             <build>
@@ -191,6 +192,11 @@
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-release-plugin</artifactId>
+                            <version>2.4.2</version>
+                        </plugin>
                 </plugins>
             </build>
         </profile>
