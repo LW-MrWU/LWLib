@@ -22,39 +22,11 @@
         <module>gameclub-lw-test</module>
     </modules>
 
-    <!-- 声明license -->
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <!-- “采购”信息，主要是自己项目的git仓库 -->
-    <scm>
-        <tag>main</tag>
-        <url>git@github.com:LW-MrWU/LWLib.git</url>
-        <connection>scm:git:git@github.com:LW-MrWU/LWLib.git</connection>
-        <developerConnection>scm:git:git@github.com:LW-MrWU/LWLib.git</developerConnection>
-    </scm>
-
-    <!-- 开发者信息 -->
-    <developers>
-        <developer>
-            <name>LW-MrWU</name>
-            <email>wukunzuiai@gmail.com</email>
-        </developer>
-    </developers>
-
-    <!-- 项目地址 -->
-    <url>https://github.com/LW-MrWU/LWLib</url>
-
-
     <properties>
         <!-- associate begin-->
         <!-- https://hub.spigotmc.org/nexus/content/repositories/snapshots/org -->
         <spigot.version>1.16.5-R0.1-SNAPSHOT</spigot.version>
-        <!--<bukkit.version>1.16.5-R0.1-SNAPSHOT</bukkit.version>-->
+        <bukkit.version>1.15.2-R0.1-SNAPSHOT</bukkit.version>
         <java.version>1.8</java.version>
         <common.lang.version>2.6</common.lang.version>
         <log4j.version>1.2.17</log4j.version>
@@ -65,11 +37,13 @@
         <jackson.version>2.12.1</jackson.version>
         <spring.beans.version>5.3.3</spring.beans.version>
         <slf4j.version>2.0.0-alpha1</slf4j.version>
+
         <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
         <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
-        <maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-release-plugin.version>2.5.1</maven-release-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.7</nexus-staging-maven-plugin.version>
 
         <druid.version>1.1.0</druid.version>
         <mysql.version>8.0.11</mysql.version>
@@ -108,12 +82,12 @@
                 <scope>provided</scope>
             </dependency>
             <!--Bukkit API-->
-            <!--<dependency>
+            <dependency>
                 <groupId>org.bukkit</groupId>
                 <artifactId>bukkit</artifactId>
                 <version>${bukkit.version}</version>
                 <scope>provided</scope>
-            </dependency>-->
+            </dependency>
 
             <!--commons-->
             <dependency>
@@ -191,6 +165,7 @@
         <profile>
             <id>release</id>
             <build>
+                <pluginManagement>
                 <plugins>
                     <!-- Source -->
                     <plugin>
@@ -240,8 +215,8 @@
                         <artifactId>maven-compiler-plugin</artifactId>
                         <version>${maven-compiler-plugin.version}</version>
                         <configuration>
-                            <source>1.7</source>
-                            <target>1.7</target>
+                            <source>${java.version}</source>
+                            <target>${java.version}</target>
                             <fork>true</fork>
                             <verbose>true</verbose>
                             <encoding>UTF-8</encoding>
@@ -254,21 +229,53 @@
                         <artifactId>maven-release-plugin</artifactId>
                         <version>${maven-release-plugin.version}</version>
                     </plugin>
+                    <!--Nexus Staging Maven插件是将组件部署到OSSRH并将其发布到Central Repository的推荐方法-->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
                 </plugins>
+            </pluginManagement>
             </build>
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>sonatype-nexus-snapshots</id>
-                    <name>Sonatype Nexus Snapshots</name>
-                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-                </snapshotRepository>
-                <repository>
-                    <id>sonatype-nexus-staging</id>
-                    <name>Nexus Release Repository</name>
-                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
         </profile>
     </profiles>
+
+    <!-- 声明license -->
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <!-- “采购”信息，主要是自己项目的git仓库 -->
+    <scm>
+        <url>git@github.com:LW-MrWU/LWLib.git</url>
+        <connection>scm:git:git@github.com:LW-MrWU/LWLib.git</connection>
+        <developerConnection>scm:git:git@github.com:LW-MrWU/LWLib.git</developerConnection>
+    </scm>
+
+    <!-- 开发者信息 -->
+    <developers>
+        <developer>
+            <name>LW-MrWU</name>
+            <email>wukunzuiai@gmail.com</email>
+            <url>https://github.com/LW-MrWU/LWLib</url>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 </project>
