@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/16 20:03
- * @description 基础配置服务
+ * 基础配置文件服务
  */
 public class BaseConfigService <T extends BaseConfig> {
     protected BasePlugin basePlugin;
@@ -18,10 +18,10 @@ public class BaseConfigService <T extends BaseConfig> {
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/16
-     * @param [basePlugin]
+     * @param basePlugin 启动主类
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 11:47
      */
     public BaseConfigService(BasePlugin basePlugin){
         this.basePlugin = basePlugin;
@@ -29,10 +29,10 @@ public class BaseConfigService <T extends BaseConfig> {
 
     /**
      * 获取插件配置文件夹文件绝对路径
-     * @author lw
-     * @date 2021/1/22 12:02
-     * @param [fileName, folder]
+     * @param config 配置实体
      * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 11:47
      */
     public String getPluginRealFilePath(T config){
         String fileName = config.getFileName();
@@ -50,11 +50,11 @@ public class BaseConfigService <T extends BaseConfig> {
     }
 
     /**
-     * 获取系统配置文件绝对路径
-     * @author lw
-     * @date 2021/1/22 12:02
-     * @param [fileName, folder]
+     * 获取插件内置配置文件夹文件绝对路径
+     * @param config 配置实体
      * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 11:48
      */
     public String getSysRealFilePath(T config){
         String fileName = config.getFileName();
@@ -71,10 +71,10 @@ public class BaseConfigService <T extends BaseConfig> {
 
     /**
      * 注册配置文件
-     * @author lw
-     * @date 2021/1/22 13:37
-     * @param [configParams]
+     * @param configParams 文件实体
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:49
      */
     public void registerConfig(T... configParams) {
         for (T config : configParams){
@@ -84,11 +84,11 @@ public class BaseConfigService <T extends BaseConfig> {
     }
 
     /**
-     * 提供注册的配置
-     * @author lw
-     * @date 2021/1/18 15:06
-     * @param [configFileName]
+     * 获取配置文件实体
+     * @param configFileName 配置绝对路径
      * @return T
+     * @author LW-MrWU
+     * @date 2021/1/28 11:50
      */
     @SuppressWarnings("unchecked")
     public T getConfig(String configFileName){
@@ -102,10 +102,10 @@ public class BaseConfigService <T extends BaseConfig> {
 
     /**
      * 重载所有配置文件
-     * @author lw
-     * @date 2021/1/23
-     * @param []
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:51
      */
     public void reloadAll(){
         for (T config : configs.values()){

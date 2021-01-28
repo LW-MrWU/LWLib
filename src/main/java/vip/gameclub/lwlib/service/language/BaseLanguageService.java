@@ -5,9 +5,9 @@ import vip.gameclub.lwlib.model.config.BaseConfig;
 import vip.gameclub.lwlib.model.config.BaseLanguageConfig;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/18 17:31
- * @description TODO
+ * 基础语言服务
  */
 public class BaseLanguageService {
 
@@ -15,10 +15,10 @@ public class BaseLanguageService {
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/18 17:32
-     * @param [basePlugin]
+     * @param basePlugin 启动主类
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 12:00
      */
     public BaseLanguageService(BasePlugin basePlugin) {
         this.basePlugin = basePlugin;
@@ -26,10 +26,12 @@ public class BaseLanguageService {
 
     /**
      * 返回语言配置
-     * @author lw
-     * @date 2021/1/18 17:32
-     * @param [key 语言配置名称, defualt 默认语言, prms 需要替换的字符串]
+     * @param key 语言配置名称
+     * @param defualt 默认语言
+     * @param prms 需要替换的字符串
      * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 12:00
      */
     public String getLanguage(String key,String defualt,String ...prms) {
         BaseConfig baseLanguageConfig = this.basePlugin.getBaseConfigService().getConfig(BaseLanguageConfig.getConfigName());

@@ -4,9 +4,9 @@ import vip.gameclub.lwlib.service.plugin.BasePlugin;
 import org.bukkit.command.CommandSender;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/18 17:54
- * @description TODO
+ * 基础消息服务
  */
 public class BaseMessageService {
 
@@ -14,10 +14,10 @@ public class BaseMessageService {
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/18 17:55
-     * @param [basePlugin]
+     * @param basePlugin 启动主类
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 12:04
      */
     public BaseMessageService(BasePlugin basePlugin) {
         this.basePlugin = basePlugin;
@@ -25,10 +25,13 @@ public class BaseMessageService {
 
     /**
      * 根据语言发送消息
-     * @author lw
-     * @date 2021/1/18 17:55
-     * @param [commandSender 接收消息的人, key 配置key, defualt 默认使用的, prms 需要替换的字符串]
+     * @param commandSender 发送对象
+     * @param key 配置key
+     * @param defualt 默认使用的
+     * @param prms 需要替换的字符串
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:05
      */
     public void sendMessageByLanguage(CommandSender commandSender, String key, String defualt, String ...prms) {
         String language = basePlugin.getBaseLanguageService().getLanguage(key, defualt, prms);
@@ -37,10 +40,11 @@ public class BaseMessageService {
 
     /**
      * 发送消息
-     * @author lw
-     * @date 2021/1/18 17:55
-     * @param [commandSender 接收消息的人, message 消息内容]
+     * @param commandSender 发送对象
+     * @param message 消息内容
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:05
      */
     public void sendMessage(CommandSender commandSender,String message) {
         String remessage = this.basePlugin.getBaseStringService().chatColorCodes(message);

@@ -12,9 +12,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/25 14:18
- * @description 基础mysql数据库服务
+ * 基础mysql服务
  */
 public class BaseMysqlService<T extends BasePlugin> {
     protected T basePlugin;
@@ -32,15 +32,14 @@ public class BaseMysqlService<T extends BasePlugin> {
     private static Statement statement;
     private static ResultSet resultSet;
 
-
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/25 18:52
-     * @param [basePlugin]
+     * @param basePlugin 启动主类
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 11:52
      */
     public BaseMysqlService(T basePlugin){
         this.basePlugin = basePlugin;
@@ -48,10 +47,10 @@ public class BaseMysqlService<T extends BasePlugin> {
 
     /**
      * 初始化数据
-     * @author lw
-     * @date 2021/1/25 18:52
-     * @param []
+     * @param
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:53
      */
     private boolean initProperty(){
         FileConfiguration fileConfiguration = basePlugin.getConfig();
@@ -79,10 +78,10 @@ public class BaseMysqlService<T extends BasePlugin> {
 
     /**
      * 连接数据库
-     * @author lw
-     * @date 2021/1/26 10:45
-     * @param []
+     * @param
      * @return java.sql.Connection
+     * @author LW-MrWU
+     * @date 2021/1/28 11:53
      */
     private Connection getConnection(){
         try{
@@ -101,11 +100,11 @@ public class BaseMysqlService<T extends BasePlugin> {
     }
 
     /**
-     * 关闭连接
-     * @author lw
-     * @date 2021/1/25 18:55
-     * @param []
+     * 关闭mysql连接
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:53
      */
     public void closeConnection(){
         try{
@@ -131,10 +130,12 @@ public class BaseMysqlService<T extends BasePlugin> {
 
     /**
      * 判断数据库是否联通
-     * @author lw
-     * @date 2021/1/26 9:59
-     * @param []
+     * 事务结束后请调用closeConnection()方法关闭数据库连接
+     * 避免不必要的资源浪费
+     * @param
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:53
      */
     public boolean isMysqlConnect(){
         if(!initProperty()){
@@ -150,10 +151,12 @@ public class BaseMysqlService<T extends BasePlugin> {
 
     /**
      * 执行查询sql
-     * @author lw
-     * @date 2021/1/25 18:49
-     * @param [plugin, sql]
+     * 事务结束后请调用closeConnection()方法关闭数据库连接
+     * 避免不必要的资源浪费
+     * @param sql sql语句
      * @return java.sql.ResultSet
+     * @author LW-MrWU
+     * @date 2021/1/28 11:55
      */
     public ResultSet exeSqlSelect(String sql){
         if(!isMysqlConnect()){
@@ -170,11 +173,12 @@ public class BaseMysqlService<T extends BasePlugin> {
     }
 
     /**
-     * 执行insert/update/delete/创建表单等操作sql
-     * @author lw
-     * @date 2021/1/26 12:16
-     * @param [sql]
-     * @return java.lang.Boolean
+     * 执行insert/update/delete/创建表单
+     * 等操作sql
+     * @param sql sql语句
+     * @return java.lang.Integer
+     * @author LW-MrWU
+     * @date 2021/1/28 11:55
      */
     public Integer exeSql(String sql){
         if(!isMysqlConnect()){
@@ -195,12 +199,13 @@ public class BaseMysqlService<T extends BasePlugin> {
     /**
      * 自动创建表单
      * 框架已自带id、createTime、updateTime
-     * @author lw
-     * @date 2021/1/26 12:17
-     * @param [table, map]
+     * @param table 表名
+     * @param paramMap 数据集
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:55
      */
-    public boolean createTable(String table, Map<String, MysqlDataTypeEnum> map){
+    public boolean createTable(String table, Map<String, MysqlDataTypeEnum> paramMap){
         if(!isMysqlConnect()){
             return false;
         }
@@ -210,7 +215,7 @@ public class BaseMysqlService<T extends BasePlugin> {
                 + " `CREATED_TIME` timestamp(6) NULL DEFAULT NULL,"
                 + " `UPDATED_TIME` timestamp(6) NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),";
 
-        Iterator<Map.Entry<String, MysqlDataTypeEnum>> iterator = map.entrySet().iterator();
+        Iterator<Map.Entry<String, MysqlDataTypeEnum>> iterator = paramMap.entrySet().iterator();
         while(iterator.hasNext()){
             Map.Entry<String, MysqlDataTypeEnum> entry = iterator.next();
             String key = entry.getKey();
@@ -248,24 +253,25 @@ public class BaseMysqlService<T extends BasePlugin> {
     /**
      * 自动插入数据
      * 框架自带id、createTime、updateTime不用处理
-     * @author lw
-     * @date 2021/1/26 13:34
-     * @param [table, map]
+     * @param table 表名
+     * @param paramMap 数据集
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:56
      */
-    public boolean insert(String table, Map<String, Object> map){
-        if(!isMysqlConnect() || map.size() <= 0){
+    public boolean insert(String table, Map<String, Object> paramMap){
+        if(!isMysqlConnect() || paramMap.size() <= 0){
             return false;
         }
 
         String sql = "INSERT INTO `" + tablePrefix + table + "` (CREATED_TIME,";
 
-        for (String str : map.keySet()){
+        for (String str : paramMap.keySet()){
             sql += str + ",";
         }
         sql = sql.substring(0, sql.length()-1) + ") VALUES('" + Timestamp.valueOf(simpleDateFormat.format(new Date())) + "',";
 
-        for (Object obj : map.values()){
+        for (Object obj : paramMap.values()){
             if(obj instanceof String){
                 sql += "'" + obj + "',";
             }else{
@@ -291,21 +297,24 @@ public class BaseMysqlService<T extends BasePlugin> {
     /**
      * 根据条件查询数据表
      * map为null时整表搜索
-     * @author lw
-     * @date 2021/1/26 14:49
-     * @param [table, map]
+     * 事务结束后请调用closeConnection()方法关闭数据库连接
+     * 避免不必要的资源浪费
+     * @param table 表名
+     * @param paramMap 数据集
      * @return java.sql.ResultSet
+     * @author LW-MrWU
+     * @date 2021/1/28 11:57
      */
-    public ResultSet select(String table, Map<String, Object> map){
+    public ResultSet select(String table, Map<String, Object> paramMap){
         if(!isMysqlConnect()){
             return null;
         }
 
         String sql = "SELECT * FROM `" + tablePrefix + table + "` ";
 
-        if(map != null && map.size()>0){
+        if(paramMap != null && paramMap.size()>0){
             sql += "WHERE ";
-            Iterator<Map.Entry<String,Object>> iterator = map.entrySet().iterator();
+            Iterator<Map.Entry<String,Object>> iterator = paramMap.entrySet().iterator();
             while (iterator.hasNext()){
                 Map.Entry<String, Object> entry = iterator.next();
                 String key = entry.getKey();
@@ -330,10 +339,11 @@ public class BaseMysqlService<T extends BasePlugin> {
 
     /**
      * 根据id删除数据
-     * @author lw
-     * @date 2021/1/26 14:51
-     * @param [table, id]
+     * @param table 表名
+     * @param id 数据在表中的id
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:58
      */
     public boolean deleteById(String table, Long id){
         if(!isMysqlConnect() || id<=0){
@@ -357,18 +367,20 @@ public class BaseMysqlService<T extends BasePlugin> {
 
     /**
      * 根据id更新数据
-     * @author lw
-     * @date 2021/1/26 15:28
-     * @param [table, id, map]
+     * @param table 表名
+     * @param id 数据在表中的id
+     * @param paramMap 数据集
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:59
      */
-    public boolean updateById(String table, Long id, Map<String, Object> map){
-        if(!isMysqlConnect() || id<=0 || map.size()<=0){
+    public boolean updateById(String table, Long id, Map<String, Object> paramMap){
+        if(!isMysqlConnect() || id<=0 || paramMap.size()<=0){
             return false;
         }
 
         String sql = "UPDATE `" + tablePrefix + table + "` SET ";
-        Iterator<Map.Entry<String,Object>> iterator = map.entrySet().iterator();
+        Iterator<Map.Entry<String,Object>> iterator = paramMap.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry<String, Object> entry = iterator.next();
             String key = entry.getKey();

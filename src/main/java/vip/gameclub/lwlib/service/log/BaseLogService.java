@@ -3,19 +3,19 @@ package vip.gameclub.lwlib.service.log;
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/16 18:13
- * @description 日志基础服务实现类
+ * 基础日志服务
  */
 public class BaseLogService {
     protected BasePlugin basePlugin;
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/16
-     * @param [basePlugin]
+     * @param basePlugin 启动主类
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 12:02
      */
     public BaseLogService(BasePlugin basePlugin){
         this.basePlugin = basePlugin;
@@ -23,10 +23,10 @@ public class BaseLogService {
 
     /**
      * 打印info日志
-     * @author lw
-     * @date 2021/1/16
-     * @param [log]
+     * @param log 日志
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:02
      */
     public void info(String log){
         String reLog = this.basePlugin.getBaseStringService().chatColorCodes(log);
@@ -35,10 +35,10 @@ public class BaseLogService {
 
     /**
      * 打印warning日志
-     * @author lw
-     * @date 2021/1/16
-     * @param [log]
+     * @param log 日志
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:02
      */
     public void warning(String log){
         String reLog = this.basePlugin.getBaseStringService().chatColorCodes(log);
@@ -47,10 +47,12 @@ public class BaseLogService {
 
     /**
      * 根据语言配置打印info日志
-     * @author lw
-     * @date 2021/1/16
-     * @param [log]
+     * @param key 语言配置名称
+     * @param defualt 默认语言
+     * @param prms 需要替换的字符串
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:02
      */
     public void infoByLanguage(String key,String defualt,String ...prms){
         String log = this.basePlugin.getBaseLanguageService().getLanguage(key, defualt, prms);
@@ -59,10 +61,12 @@ public class BaseLogService {
 
     /**
      * 根据语言配置打印warning日志
-     * @author lw
-     * @date 2021/1/16
-     * @param [log]
+     * @param key 语言配置名称
+     * @param defualt 默认语言
+     * @param prms 需要替换的字符串
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:03
      */
     public void warningByLanguage(String key,String defualt,String ...prms){
         String log = this.basePlugin.getBaseLanguageService().getLanguage(key, defualt, prms);

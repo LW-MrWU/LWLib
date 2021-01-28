@@ -4,19 +4,19 @@ import vip.gameclub.lwlib.service.plugin.BasePlugin;
 import org.bukkit.ChatColor;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/19 13:58
- * @description 字符串公共服务
+ * 基础字符串公共服务
  */
 public class BaseStringService {
     protected BasePlugin basePlugin;
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/19 13:59
-     * @param [basePlugin]
+     * @param basePlugin 启动主类
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 12:12
      */
     public BaseStringService(BasePlugin basePlugin){
         this.basePlugin = basePlugin;
@@ -24,10 +24,10 @@ public class BaseStringService {
 
     /**
      * 变更颜色代码前缀§->&
-     * @author lw
-     * @date 2021/1/19 14:01
-     * @param [msg]
+     * @param msg 消息
      * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 12:13
      */
     public String chatColorCodes(String msg){
         String newStr = ChatColor.translateAlternateColorCodes('&', msg);
@@ -36,10 +36,11 @@ public class BaseStringService {
 
     /**
      * 字符替换 {i}替换
-     * @author lw
-     * @date 2021/1/18 17:32
-     * @param [str 需要替换的字符串, prms 需要填充的字符串]
+     * @param str 需要替换的字符串
+     * @param prms 需要填充的字符串
      * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 12:13
      */
     public String substitutionPrms(String str, String... prms) {
         String tempString = str;

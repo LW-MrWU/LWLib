@@ -15,9 +15,9 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/16 18:36
- * @description 插件父类
+ * 插件启动类父类
  */
 public abstract class BasePlugin extends JavaPlugin {
 
@@ -38,10 +38,10 @@ public abstract class BasePlugin extends JavaPlugin {
 
     /**
      * 初始化服务
-     * @author lw
-     * @date 2021/1/16
-     * @param []
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:07
      */
     private void initService(){
         baseLogService = new BaseLogService(this);
@@ -56,10 +56,10 @@ public abstract class BasePlugin extends JavaPlugin {
 
     /**
      * 服务启动
-     * @author lw
-     * @date 2021/1/16
-     * @param []
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:07
      */
     @Override
     public void onEnable(){
@@ -77,10 +77,10 @@ public abstract class BasePlugin extends JavaPlugin {
 
     /**
      * 服务卸载
-     * @author lw
-     * @date 2021/1/22 9:58
-     * @param []
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:07
      */
     @Override
     public void onDisable(){
@@ -88,29 +88,29 @@ public abstract class BasePlugin extends JavaPlugin {
     }
 
     /**
-     * 自定义服务启动
-     * @author bg392277
-     * @date 2021/1/18 11:05
-     * @param []
+     * 自定义服务启动拓展
+     * @param
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 12:07
      */
     public abstract boolean enable();
 
     /**
-     * 自定义服务卸载
-     * @author lw
-     * @date 2021/1/22 9:58
-     * @param []
+     * 自定义服务卸载拓展
+     * @param
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 12:08
      */
     public abstract boolean disable();
 
     /**
-     * 注册命令执行者
-     * @author lw
-     * @date 2021/1/19 15:32
-     * @param [commandServcie 命令执行服务]
+     * 注册命令
+     * @param baseCommand 主命令实体
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:08
      */
     public <T extends BaseCommand> void registerCommand(T baseCommand) {
         PluginCommand pluginCommand = getCommand(baseCommand.getCommandName());
@@ -120,10 +120,10 @@ public abstract class BasePlugin extends JavaPlugin {
 
     /**
      * 注册监听
-     * @author lw
-     * @date 2021/1/24
-     * @param [listener]
+     * @param listener 监听实体
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:08
      */
     public <T extends BaseListener> void registerListener(T listener) {
         getServer().getPluginManager().registerEvents(listener, this);
@@ -131,87 +131,87 @@ public abstract class BasePlugin extends JavaPlugin {
 
     /**
      * 获取服务server
-     * @author lw
-     * @date 2021/1/25 11:42
-     * @param []
+     * @param
      * @return org.bukkit.Server
+     * @author LW-MrWU
+     * @date 2021/1/28 12:09
      */
     public Server getBaseServer(){
         return this.getServer();
     }
 
     /**
-     * 基础日志服务
-     * @author lw
-     * @date 2021/1/16
-     * @param []
-     * @return com.gameclub.lw.biz.sevice.log.BaseLogService
+     * 获取基础日志服务
+     * @param
+     * @return vip.gameclub.lwlib.service.log.BaseLogService
+     * @author LW-MrWU
+     * @date 2021/1/28 12:09
      */
     public BaseLogService getBaseLogService() {
         return baseLogService;
     }
 
     /**
-     * 基础配置文件服务
-     * @author lw
-     * @date 2021/1/18 17:35
-     * @param []
-     * @return BaseConfigService
+     * 获取基础配置文件服务
+     * @param
+     * @return vip.gameclub.lwlib.service.config.BaseConfigService
+     * @author LW-MrWU
+     * @date 2021/1/28 12:09
      */
     public BaseConfigService getBaseConfigService() {
         return baseConfigService;
     }
 
     /**
-     * 基础语言服务
-     * @author lw
-     * @date 2021/1/18 17:35
-     * @param []
-     * @return BaseLanguageService
+     * 获取基础语言服务
+     * @param
+     * @return vip.gameclub.lwlib.service.language.BaseLanguageService
+     * @author LW-MrWU
+     * @date 2021/1/28 12:09
      */
     public BaseLanguageService getBaseLanguageService() {
         return baseLanguageService;
     }
 
     /**
-     * 基础消息服务
-     * @author lw
-     * @date 2021/1/18 17:58
-     * @param []
-     * @return BaseMessageService
+     * 获取基础消息服务
+     * @param
+     * @return vip.gameclub.lwlib.service.message.BaseMessageService
+     * @author LW-MrWU
+     * @date 2021/1/28 12:10
      */
     public BaseMessageService getBaseMessageService() {
         return baseMessageService;
     }
 
     /**
-     * 字符串公共服务
-     * @author lw
-     * @date 2021/1/19 14:03
-     * @param []
-     * @return BaseStringService
+     * 获取基础字符串公共服务
+     * @param
+     * @return vip.gameclub.lwlib.service.utils.BaseStringService
+     * @author LW-MrWU
+     * @date 2021/1/28 12:10
      */
     public BaseStringService getBaseStringService() {
         return baseStringService;
     }
 
     /**
-     * 玩家公共服务
-     * @author lw
-     * @date 2021/1/19 14:03
-     * @param []
-     * @return BaseStringService
+     * 获取玩家公共服务
+     * @param
+     * @return vip.gameclub.lwlib.service.utils.BasePlayerService
+     * @author LW-MrWU
+     * @date 2021/1/28 12:10
      */
     public BasePlayerService getBasePlayerService() {
         return basePlayerService;
     }
 
     /**
-     * 基础数据库服务
-     * @author lw
-     * @date 2021/1/25 14:48
-     * @param []
-     * @return BaseMysqlService
+     * 获取基础mysql服务
+     * @param
+     * @return vip.gameclub.lwlib.service.database.mysql.BaseMysqlService
+     * @author LW-MrWU
+     * @date 2021/1/28 12:11
      */
     public BaseMysqlService getBaseMysqlService() {
         return baseMysqlService;

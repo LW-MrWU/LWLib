@@ -9,19 +9,19 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/24 16:03
- * @description 玩家公共服务
+ * 玩家公共服务
  */
 public class BasePlayerService {
     protected BasePlugin basePlugin;
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/19 13:59
-     * @param [basePlugin]
+     * @param basePlugin 启动主类
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 12:12
      */
     public BasePlayerService(BasePlugin basePlugin){
         this.basePlugin = basePlugin;
@@ -29,10 +29,10 @@ public class BasePlayerService {
 
     /**
      * 获取在线玩家列表
-     * @author lw
-     * @date 2021/1/24
-     * @param []
+     * @param
      * @return java.util.List<org.bukkit.entity.Player>
+     * @author LW-MrWU
+     * @date 2021/1/28 12:12
      */
     public List<Player> getOnlinePlayerList(){
         List<Player> playerList = new ArrayList<>();
@@ -46,10 +46,10 @@ public class BasePlayerService {
 
     /**
      * 获取离线玩家列表
-     * @author lw
-     * @date 2021/1/24
-     * @param []
+     * @param
      * @return java.util.List<org.bukkit.OfflinePlayer>
+     * @author LW-MrWU
+     * @date 2021/1/28 12:12
      */
     public List<OfflinePlayer> getOfflinePlayerList(){
         List<OfflinePlayer> offlinePlayerList = new ArrayList<>();
