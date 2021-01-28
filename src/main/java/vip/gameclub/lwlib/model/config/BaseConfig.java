@@ -11,9 +11,9 @@ import java.nio.file.CopyOption;
 import java.nio.file.Files;
 
 /**
+ * 所有配置文件的父类
  * @author LW-MrWU
  * @date 创建时间 2021/1/18 14:51
- * 所有配置文件的父类
  */
 public abstract class BaseConfig <T extends BasePlugin> {
     private T basePlugin;

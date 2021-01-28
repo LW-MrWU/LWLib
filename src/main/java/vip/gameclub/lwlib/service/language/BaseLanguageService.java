@@ -5,9 +5,9 @@ import vip.gameclub.lwlib.model.config.BaseConfig;
 import vip.gameclub.lwlib.model.config.BaseLanguageConfig;
 
 /**
+ * 基础语言服务
  * @author LW-MrWU
  * @date 创建时间 2021/1/18 17:31
- * 基础语言服务
  */
 public class BaseLanguageService {
 

@@ -14,9 +14,9 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 /**
+ * 命令父类
  * @author LW-MrWU
  * @date 创建时间 2021/1/20 16:41
- * 命令父类
  */
 public abstract class BaseCommand implements TabExecutor {
     /**

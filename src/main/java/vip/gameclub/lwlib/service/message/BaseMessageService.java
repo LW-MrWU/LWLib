@@ -4,9 +4,9 @@ import vip.gameclub.lwlib.service.plugin.BasePlugin;
 import org.bukkit.command.CommandSender;
 
 /**
+ * 基础消息服务
  * @author LW-MrWU
  * @date 创建时间 2021/1/18 17:54
- * 基础消息服务
  */
 public class BaseMessageService {
 

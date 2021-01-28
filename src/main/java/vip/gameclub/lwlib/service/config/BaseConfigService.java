@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 基础配置文件服务
  * @author LW-MrWU
  * @date 创建时间 2021/1/16 20:03
- * 基础配置文件服务
  */
 public class BaseConfigService <T extends BaseConfig> {
     protected BasePlugin basePlugin;

@@ -3,9 +3,9 @@ package vip.gameclub.lwlib.model.config;
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
 
 /**
+ * 语言配置父类
  * @author LW-MrWU
  * @date 创建时间 2021/1/18 16:38
- * 语言配置父类
  */
 public class BaseLanguageConfig extends BaseConfig {
 

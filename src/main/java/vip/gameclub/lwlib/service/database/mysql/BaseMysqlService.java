@@ -12,9 +12,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * 基础mysql服务
  * @author LW-MrWU
  * @date 创建时间 2021/1/25 14:18
- * 基础mysql服务
  */
 public class BaseMysqlService<T extends BasePlugin> {
     protected T basePlugin;

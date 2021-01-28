@@ -1,9 +1,9 @@
 package vip.gameclub.lwlib.model.enumModel;
 
 /**
+ * mysql数据类型枚举类
  * @author lw
  * @date 创建时间 2021/1/26 16:42
- * mysql数据类型枚举类
  */
 public enum MysqlDataTypeEnum {
     TINYINT("TINYINT", 0),

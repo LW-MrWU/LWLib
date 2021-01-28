@@ -4,9 +4,9 @@ import vip.gameclub.lwlib.model.enumModel.BaseSysMsgEnum;
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
 
 /**
+ * lwlib服务主类
  * @author LW-MrWU
  * @date 创建时间 2021/1/16 18:36
- * lwlib服务主类
  */
 public class LwLibMainPlugin extends BasePlugin {
     private static LwLibMainPlugin lwLibMainPlugin;

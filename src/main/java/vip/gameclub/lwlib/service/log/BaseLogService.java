@@ -3,9 +3,9 @@ package vip.gameclub.lwlib.service.log;
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
 
 /**
+ * 基础日志服务
  * @author LW-MrWU
  * @date 创建时间 2021/1/16 18:13
- * 基础日志服务
  */
 public class BaseLogService {
     protected BasePlugin basePlugin;

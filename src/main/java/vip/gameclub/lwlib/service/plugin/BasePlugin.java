@@ -15,9 +15,9 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
+ * 插件启动类父类服务
  * @author LW-MrWU
  * @date 创建时间 2021/1/16 18:36
- * 插件启动类父类
  */
 public abstract class BasePlugin extends JavaPlugin {
 

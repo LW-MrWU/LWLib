@@ -6,9 +6,9 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
+ * config配置文件父类
  * @author LW-MrWU
  * @date 创建时间 2021/1/22 15:24
- * config配置文件父类
  */
 public abstract class BaseDefaultConfig <T extends BasePlugin> extends BaseConfig {
 

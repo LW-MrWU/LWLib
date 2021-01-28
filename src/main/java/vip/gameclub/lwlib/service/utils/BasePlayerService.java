@@ -9,9 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
+ * 玩家公共服务
  * @author LW-MrWU
  * @date 创建时间 2021/1/24 16:03
- * 玩家公共服务
  */
 public class BasePlayerService {
     protected BasePlugin basePlugin;

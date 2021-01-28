@@ -3,9 +3,9 @@ package vip.gameclub.lwlib.llb;
 import vip.gameclub.lwlib.model.config.BaseDefaultConfig;
 
 /**
+ * lwlib 配置类
  * @author LW-MrWU
  * @date 创建时间 2021/1/22 16:54
- * lwlib 配置类
  */
 public class LwLibDefaultConfig extends BaseDefaultConfig {
     /**

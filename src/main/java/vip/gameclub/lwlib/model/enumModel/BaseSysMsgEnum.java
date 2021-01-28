@@ -1,9 +1,9 @@
 package vip.gameclub.lwlib.model.enumModel;
 
 /**
+ * 系统语言提示枚举类
  * @author LW-MrWU
  * @date 创建时间 2021/1/18 16:42
- * 系统语言提示枚举类
  */
 public enum BaseSysMsgEnum {
 

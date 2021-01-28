@@ -4,9 +4,9 @@ import vip.gameclub.lwlib.service.plugin.BasePlugin;
 import org.bukkit.ChatColor;
 
 /**
+ * 基础字符串公共服务
  * @author LW-MrWU
  * @date 创建时间 2021/1/19 13:58
- * 基础字符串公共服务
  */
 public class BaseStringService {
     protected BasePlugin basePlugin;
