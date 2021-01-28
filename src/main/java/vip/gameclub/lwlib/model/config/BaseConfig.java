@@ -11,9 +11,9 @@ import java.nio.file.CopyOption;
 import java.nio.file.Files;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/18 14:51
- * @description 所有配置文件的父类
+ * 所有配置文件的父类
  */
 public abstract class BaseConfig <T extends BasePlugin> {
     private T basePlugin;
@@ -22,25 +22,33 @@ public abstract class BaseConfig <T extends BasePlugin> {
     private String fileName;
     private String folder;
     private boolean init = true;
+
+    /**
+     * 配置绝对路径
+     */
     public static String configName;
 
     /**
      * 构造函数
-     * @author lw
-     * @date 2021/1/22 15:08
-     * @param [basePlugin 主服务, fileName 文件名]
+     * @param basePlugin 主服务
+     * @param fileName 文件名
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 11:25
      */
     public BaseConfig(T basePlugin, String fileName){
         this(basePlugin, fileName, null);
     }
 
     /**
-     * 构造函数（文件夹）
-     * @author lw
-     * @date 2021/1/22 15:08
-     * @param [basePlugin 主服务, fileName 文件名, folder 文件夹]
+     * 构造函数
+     * 带文件夹，可多级，用/分隔
+     * @param basePlugin 主服务
+     * @param fileName 文件名
+     * @param folder 文件夹名
      * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 11:26
      */
     public BaseConfig(T basePlugin, String fileName, String folder){
         this.basePlugin = basePlugin;
@@ -66,10 +74,10 @@ public abstract class BaseConfig <T extends BasePlugin> {
 
     /**
      * 配置文件找不到时的操作
-     * @author lw
-     * @date 2021/1/26 17:49
-     * @param [sysRealFilePath]
+     * @param sysRealFilePath 插件内置配置文件夹文件绝对路径
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:27
      */
     private boolean fileNotExist(String sysRealFilePath){
         InputStream inputStream = this.basePlugin.getResource(sysRealFilePath);
@@ -95,10 +103,10 @@ public abstract class BaseConfig <T extends BasePlugin> {
     /**
      * 处理配置version
      * version不对应时，将系统文件覆盖到服务器插件文件
-     * @author lw
-     * @date 2021/1/26 17:50
-     * @param [sysRealFilePath]
+     * @param sysRealFilePath 插件内置配置文件夹文件绝对路径
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:28
      */
     private void configVersionHandler(String sysRealFilePath){
         InputStream inputStream = this.basePlugin.getResource(sysRealFilePath);
@@ -148,11 +156,11 @@ public abstract class BaseConfig <T extends BasePlugin> {
     }
 
     /**
-     * 加载fileconfig
-     * @author lw
-     * @date 2021/1/22 14:42
-     * @param []
+     * 加载配置
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:29
      */
     protected void loadFileConfig() {
         if(this.fileConfiguration==null) {
@@ -161,11 +169,11 @@ public abstract class BaseConfig <T extends BasePlugin> {
     }
 
     /**
-     * 重新加载
-     * @author lw
-     * @date 2021/1/22 15:13
-     * @param []
+     * 重新加载配置
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:29
      */
     public void reload() {
         if(this.isInit()) {
@@ -175,11 +183,11 @@ public abstract class BaseConfig <T extends BasePlugin> {
     }
 
     /**
-     * 加载配置
-     * @author lw
-     * @date 2021/1/22 15:13
-     * @param []
+     * 加载配置后额外操作
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:30
      */
     public void load(){
         if(this.isInit()){
@@ -188,29 +196,29 @@ public abstract class BaseConfig <T extends BasePlugin> {
     }
 
     /**
-     * 加载配置文件后的额外操作
-     * @author lw
-     * @date 2021/1/22 14:45
-     * @param []
+     * 加载配置文件后的自定义额外操作
+     * @param  1
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:30
      */
     public abstract void loadConfig();
 
     /**
      * 创建自定义配置（例如玩家文件）
-     * @author lw
-     * @date 2021/1/22 15:00
-     * @param []
+     * @param
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:30
      */
     protected abstract boolean createConfig();
 
     /**
      * 创建一个新的配置文件
-     * @author lw
-     * @date 2021/1/22 15:17
-     * @param []
+     * @param
      * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:30
      */
     public boolean createNewConfigFile() {
         boolean state = false;
@@ -227,10 +235,10 @@ public abstract class BaseConfig <T extends BasePlugin> {
     /**
      * 保存配置
      * 实际保存到文件中
-     * @author lw
-     * @date 2021/1/23
-     * @param []
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:31
      */
     public void saveConfig() {
         try {
@@ -247,50 +255,101 @@ public abstract class BaseConfig <T extends BasePlugin> {
      * value输入null时为删除
      * 修改内存中数据，只做临时读取用，重新加载后失效
      * 永久保存请在修改后使用saveConfig方法
-     * @author lw
-     * @date 2021/1/23
-     * @param [key, value]
+     * @param path 路径
+     * @param value 值
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:31
      */
-    public void setProperties(String key,Object value) {
-        this.fileConfiguration.set(key, value);
+    public void setProperties(String path,Object value) {
+        this.fileConfiguration.set(path, value);
     }
 
     /**
      * 获取配置文件FileConfiguration
-     * @author lw
-     * @date 2021/1/22 11:29
-     * @param []
+     * @param
      * @return org.bukkit.configuration.file.FileConfiguration
+     * @author LW-MrWU
+     * @date 2021/1/28 11:32
      */
     public FileConfiguration getFileConfiguration() {
         return this.fileConfiguration;
     }
 
+    /**
+     * 获取文件
+     * @param
+     * @return java.io.File
+     * @author LW-MrWU
+     * @date 2021/1/28 11:32
+     */
     public File getFile() {
         return this.file;
     }
 
+    /**
+     * 获取文件名
+     * @param
+     * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 11:33
+     */
     public String getFileName(){
         return this.fileName;
     }
 
+    /**
+     * 获取文件夹
+     * @param
+     * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 11:33
+     */
     public String getFolder(){
         return this.folder;
     }
 
+    /**
+     * 是否初始化
+     * @param
+     * @return boolean
+     * @author LW-MrWU
+     * @date 2021/1/28 11:33
+     */
     public boolean isInit() {
         return init;
     }
 
+    /**
+     * 获取启动主类
+     * @param
+     * @return T
+     * @author LW-MrWU
+     * @date 2021/1/28 11:33
+     */
     public T getBasePlugin() {
         return basePlugin;
     }
 
+    /**
+     * 获取配置绝对路径
+     * @param
+     * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 11:33
+     */
     public static <T extends BaseConfig> String getConfigName() {
         return T.configName;
     }
 
+    /**
+     * 设置配置绝对路径
+     * @param basePlugin 启动主类
+     * @param config 配置实体
+     * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:34
+     */
     public static <T extends BaseConfig> void setConfigName(BasePlugin basePlugin, T config) {
         String pluginRealFilePath = basePlugin.getBaseConfigService().getPluginRealFilePath(config);
         T.configName = pluginRealFilePath;

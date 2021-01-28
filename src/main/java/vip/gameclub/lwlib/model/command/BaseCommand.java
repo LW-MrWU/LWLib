@@ -14,9 +14,9 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/20 16:41
- * @description 命令父类
+ * 命令父类
  */
 public abstract class BaseCommand implements TabExecutor {
     /**
@@ -209,7 +209,7 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 获取主函数对象
-     * @param  1
+     * @param
      * @return vip.gameclub.lwlib.service.plugin.BasePlugin
      * @author LW-MrWU
      * @date 2021/1/27 18:25
@@ -236,7 +236,7 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 自定义帮助说明
-     * @param  1
+     * @param
      * @return java.lang.String
      * @author LW-MrWU
      * @date 2021/1/27 18:26
@@ -245,7 +245,7 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 获取所有子命令list列表
-     * @param  1
+     * @param
      * @return java.util.List<java.lang.String>
      * @author LW-MrWU
      * @date 2021/1/27 18:26
@@ -427,6 +427,7 @@ public abstract class BaseCommand implements TabExecutor {
 
     /**
      * 添加子命令
+     * 支持一次添加多个
      * @param commands 命令
      * @return void
      * @author LW-MrWU
@@ -446,14 +447,35 @@ public abstract class BaseCommand implements TabExecutor {
         }
     }
 
+    /**
+     * 获取子命令map
+     * @param
+     * @return java.util.Map<java.lang.String,vip.gameclub.lwlib.model.command.BaseCommand>
+     * @author LW-MrWU
+     * @date 2021/1/28 11:22
+     */
     public Map<String, BaseCommand> getSubCommands() {
         return subCommands;
     }
 
+    /**
+     * 获取命令名称
+     * @param
+     * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 11:22
+     */
     public String getCommandName() {
         return commandName;
     }
 
+    /**
+     * 获取命令别名
+     * @param
+     * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 11:23
+     */
     public String getCommandLabel() {
         return commandLabel;
     }

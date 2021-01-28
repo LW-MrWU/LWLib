@@ -6,16 +6,30 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.file.FileConfiguration;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/22 15:24
- * @description config文件父类
+ * config配置文件父类
  */
 public abstract class BaseDefaultConfig <T extends BasePlugin> extends BaseConfig {
 
+    /**
+     * 构造函数
+     * @param basePlugin 启动主类
+     * @return
+     * @author LW-MrWU
+     * @date 2021/1/28 11:35
+     */
     public BaseDefaultConfig(T basePlugin) {
         super(basePlugin, "config.yml");
     }
 
+    /**
+     * 加载配置额外操作
+     * @param
+     * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:35
+     */
     @Override
     public void loadConfig() {
         FileConfiguration fileConfiguration = this.getFileConfiguration();
@@ -34,11 +48,11 @@ public abstract class BaseDefaultConfig <T extends BasePlugin> extends BaseConfi
     }
 
     /**
-     * 基础文件配置拓展
-     * @author lw
-     * @date 2021/1/22 16:52
-     * @param []
+     * config基础文件配置自定义拓展操作
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:36
      */
     protected abstract void loadDefaultConfig();
 

@@ -3,20 +3,19 @@ package vip.gameclub.lwlib.model.config;
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/18 16:38
- * @description 语言配置父类
+ * 语言配置父类
  */
 public class BaseLanguageConfig extends BaseConfig {
 
     /**
      * 构造函数
-     *
-     * @param fileName
-     * @param basePlugin
+     * @param basePlugin 启动主类
+     * @param fileName 配置文件名
      * @return
-     * @author lw
-     * @date 2021/1/18 14:51
+     * @author LW-MrWU
+     * @date 2021/1/28 11:36
      */
     public BaseLanguageConfig(BasePlugin basePlugin, String fileName) {
         super(basePlugin, fileName, "languages");

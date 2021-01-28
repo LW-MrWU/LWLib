@@ -4,13 +4,20 @@ import vip.gameclub.lwlib.model.enumModel.BaseSysMsgEnum;
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
 
 /**
- * @author lw
+ * @author LW-MrWU
  * @date 创建时间 2021/1/16 18:36
- * @description lwlib服务启动时调用
+ * lwlib服务主类
  */
 public class LwLibMainPlugin extends BasePlugin {
     private static LwLibMainPlugin lwLibMainPlugin;
 
+    /**
+     * 实例化方法
+     * @param
+     * @return vip.gameclub.lwlib.llb.LwLibMainPlugin
+     * @author LW-MrWU
+     * @date 2021/1/28 11:12
+     */
     public static LwLibMainPlugin getInstance(){
         return lwLibMainPlugin;
     }
@@ -33,10 +40,10 @@ public class LwLibMainPlugin extends BasePlugin {
 
     /**
      * 初始化配置文件
-     * @author lw
-     * @date 2021/1/19 14:11
-     * @param []
+     * @param
      * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 11:12
      */
     private void initConfig(){
         //LwLibDefaultConfig defaultConfig = new LwLibDefaultConfig();

@@ -3,7 +3,7 @@ package vip.gameclub.lwlib.model.enumModel;
 /**
  * @author lw
  * @date 创建时间 2021/1/26 16:42
- * @description mysql数据类型枚举类
+ * mysql数据类型枚举类
  */
 public enum MysqlDataTypeEnum {
     TINYINT("TINYINT", 0),
@@ -40,10 +40,24 @@ public enum MysqlDataTypeEnum {
         this.typeName = typeName;
     }
 
+    /**
+     * 获取字段长度
+     * @param
+     * @return int
+     * @author LW-MrWU
+     * @date 2021/1/28 11:42
+     */
     public int getTypeLength(){
         return typeLength;
     }
 
+    /**
+     * 获取字段名
+     * @param
+     * @return java.lang.String
+     * @author LW-MrWU
+     * @date 2021/1/28 11:42
+     */
     public String getTypeName() {
         return typeName;
     }
