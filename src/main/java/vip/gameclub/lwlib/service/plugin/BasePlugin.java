@@ -1,6 +1,9 @@
 package vip.gameclub.lwlib.service.plugin;
 
+import org.bukkit.plugin.ServicePriority;
+import vip.gameclub.lwlib.event.BaseEvent;
 import vip.gameclub.lwlib.listener.BaseListener;
+import vip.gameclub.lwlib.service.BaseService;
 import vip.gameclub.lwlib.service.config.BaseConfigService;
 import vip.gameclub.lwlib.service.database.mysql.BaseMysqlService;
 import vip.gameclub.lwlib.service.log.BaseLogService;
@@ -127,6 +130,45 @@ public abstract class BasePlugin extends JavaPlugin {
      */
     public <T extends BaseListener> void registerListener(T listener) {
         getServer().getPluginManager().registerEvents(listener, this);
+    }
+
+    /**
+     * 触发自定义事件
+     * @param customEvent 自定义事件实体
+     * @return void
+     * @author LW-MrWU
+     * @date 2021/1/31 15:45
+     */
+    public <T extends BaseEvent> void callCustomEvent(T customEvent){
+        getServer().getPluginManager().callEvent(customEvent);
+    }
+
+    /**
+     * 注册服务
+     * @param service 服务
+     * @return void
+     * @author LW-MrWU
+     * @date 2021/1/31 15:46
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public <T extends BaseService> void registerService(T service) {
+        Class serviceClass = service.getClass();
+        getServer().getServicesManager().register(serviceClass, service, this, ServicePriority.Normal);
+    }
+
+    /**
+     * 注册服务
+     * @param cls 服务的类
+     * @param service 服务
+     * @param <T> 服务类型
+     * @param <D> 服务类型
+     * @return void
+     * @author LW-MrWU
+     * @date 2021/1/31 15:47
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public <T extends BaseService,D extends T> void registerService(Class<T> cls, D service) {
+        getServer().getServicesManager().register(cls, service, this, ServicePriority.Normal);
     }
 
     /**

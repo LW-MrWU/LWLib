@@ -50,4 +50,32 @@ public class BaseMessageService {
         String remessage = this.basePlugin.getBaseStringService().chatColorCodes(message);
         commandSender.sendMessage(remessage);
     }
+
+    /**
+     * 根据玩家ID和语言发送消息
+     * @param playerId 玩家ID
+     * @param key 配置key
+     * @param defualt 默认使用的
+     * @param prms 需要替换的字符串
+     * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:05
+     */
+    public void sendMessageByLanguagePlayerId(String playerId, String key, String defualt, String ...prms) {
+        String language = basePlugin.getBaseLanguageService().getLanguage(key, defualt, prms);
+        sendMessage(basePlugin.getBasePlayerService().getPlayer(playerId),language);
+    }
+
+    /**
+     * 根据玩家ID发送消息
+     * @param playerId 玩家ID
+     * @param message 消息内容
+     * @return void
+     * @author LW-MrWU
+     * @date 2021/1/28 12:05
+     */
+    public void sendMessageByPlayerId(String playerId, String message) {
+        String remessage = this.basePlugin.getBaseStringService().chatColorCodes(message);
+        basePlugin.getBasePlayerService().getPlayer(playerId).sendMessage(remessage);
+    }
 }
