@@ -32,13 +32,21 @@ public enum BaseSysMsgEnum {
      */
     CONFIG_RELOAD_SUCCESS("&aConfig:{0} reload success."),
     /**
+     * 配置文件内容查找失败
+     */
+    FILECONFIG_GET_ERROR("&cConfig:{0} fileConfiguration get error, path:{1}."),
+    /**
      * 配置文件保存异常
      */
     CONFIG_SAVE_EXCEPTION("&cCould not save config to {0} exception:{1}"),
     /**
      * mysql异常
      */
-    MYSQL_EXCEPTION("&cMysql exception detail:{0}");
+    MYSQL_EXCEPTION("&cMysql exception detail:{0}"),
+    /**
+     * scoreboard team超过限制数量
+     */
+    SCOREBOARD_TEAM_COUNT_EOOR("&escoreboard team quantity exceeding limit:{0}");
 
     private String value;
 
