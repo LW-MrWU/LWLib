@@ -44,9 +44,9 @@ public enum BaseSysMsgEnum {
      */
     MYSQL_EXCEPTION("&cMysql exception detail:{0}"),
     /**
-     * scoreboard team超过限制数量
+     * scoreboard 显示模块超过限制数量
      */
-    SCOREBOARD_TEAM_COUNT_EOOR("&escoreboard team quantity exceeding limit:{0}");
+    SCOREBOARD_MODULE_COUNT_EOOR("&escoreboard module quantity exceeding limit:{0}");
 
     private String value;
 

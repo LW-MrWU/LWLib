@@ -3,6 +3,7 @@ package vip.gameclub.lwlib.service.language;
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
 import vip.gameclub.lwlib.model.config.BaseConfig;
 import vip.gameclub.lwlib.model.config.BaseLanguageConfig;
+import vip.gameclub.lwlib.service.utils.BaseStringUtil;
 
 /**
  * 基础语言服务
@@ -45,7 +46,7 @@ public class BaseLanguageService {
         }else {
             language = defualt;
         }
-        language = this.basePlugin.getBaseStringService().substitutionPrms(language, prms);
+        language = BaseStringUtil.substitutionPrms(language, prms);
         return language;
     }
 

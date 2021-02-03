@@ -1,6 +1,5 @@
 package vip.gameclub.lwlib.service.utils;
 
-import vip.gameclub.lwlib.service.plugin.BasePlugin;
 import org.bukkit.ChatColor;
 
 /**
@@ -8,19 +7,7 @@ import org.bukkit.ChatColor;
  * @author LW-MrWU
  * @date 创建时间 2021/1/19 13:58
  */
-public class BaseStringService {
-    protected BasePlugin basePlugin;
-
-    /**
-     * 构造函数
-     * @param basePlugin 启动主类
-     * @return
-     * @author LW-MrWU
-     * @date 2021/1/28 12:12
-     */
-    public BaseStringService(BasePlugin basePlugin){
-        this.basePlugin = basePlugin;
-    }
+public class BaseStringUtil {
 
     /**
      * 变更颜色代码前缀§->&
@@ -29,7 +16,7 @@ public class BaseStringService {
      * @author LW-MrWU
      * @date 2021/1/28 12:13
      */
-    public String chatColorCodes(String msg){
+    public static String chatColorCodes(String msg){
         String newStr = ChatColor.translateAlternateColorCodes('&', msg);
         return newStr;
     }
@@ -42,7 +29,7 @@ public class BaseStringService {
      * @author LW-MrWU
      * @date 2021/1/28 12:13
      */
-    public String substitutionPrms(String str, String... prms) {
+    public static String substitutionPrms(String str, String... prms) {
         String tempString = str;
         if (tempString != null) {
             for (int i = 0; i < prms.length; i++) {
@@ -50,7 +37,7 @@ public class BaseStringService {
                 tempString = tempString.replace(holder, String.valueOf(prms[i]));
             }
         }
-        String reTempString = this.basePlugin.getBaseStringService().chatColorCodes(tempString);
+        String reTempString = chatColorCodes(tempString);
         return reTempString;
     }
 

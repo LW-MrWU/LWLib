@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
+import vip.gameclub.lwlib.service.utils.BasePlayerUtil;
 
 import java.util.*;
 
@@ -175,7 +176,7 @@ public abstract class BaseCommand implements TabExecutor {
             //若无输出则输出在线玩家列表
             if(result == null || result.size() <= 0){
                 List<String> userNames = new ArrayList<>();
-                List<Player> playerList = LwLibMainPlugin.getInstance().getBasePlayerService().getOnlinePlayerList();
+                List<Player> playerList = BasePlayerUtil.getOnlinePlayerList();
                 playerList.forEach(player -> {
                     userNames.add(player.getName());
                 });

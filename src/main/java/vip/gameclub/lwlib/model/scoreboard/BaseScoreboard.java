@@ -6,11 +6,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 import vip.gameclub.lwlib.model.enumModel.BaseSysMsgEnum;
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
+import vip.gameclub.lwlib.service.utils.BaseStringUtil;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +23,11 @@ import java.util.Map;
 public abstract class BaseScoreboard<T extends BasePlugin> {
     protected T basePlugin;
 
-    private static Map<Player, BaseScoreboard> scoreboardData;
     private Scoreboard scoreboard;
     private Objective objective;
     private String title;
-    private static Player player;
-    private List<Team> teamList;
+    private Player player;
+    private List<Map<String, List<String>>> moduleList;
     private boolean isShow;
     private DisplaySlot displaySlot;
     private int count;
@@ -43,18 +43,16 @@ public abstract class BaseScoreboard<T extends BasePlugin> {
      * @date 2021/2/1 16:20
      */
     public BaseScoreboard(T basePlugin, Player player, String title, DisplaySlot displaySlot, Integer count){
+        this.basePlugin = basePlugin;
+        this.player = player;
         this.title = title;
         this.displaySlot = displaySlot;
         this.count = count;
 
-        this.player = player;
-        this.basePlugin = basePlugin;
         this.isShow = false;
-        teamList = Lists.newArrayList();
+        this.moduleList = Lists.newArrayList();
 
         show();
-
-        getScoreboardData().put(player, this);
     }
 
     /**
@@ -65,20 +63,20 @@ public abstract class BaseScoreboard<T extends BasePlugin> {
      * @date 2021/2/1 16:21
      */
     private void show(){
-        if(isShow){
+        if(this.isShow){
             return;
         }
 
-        if(player == null || !player.isOnline()){
+        if(this.player == null || !this.player.isOnline()){
             return;
         }
 
         this.scoreboard = basePlugin.getServer().getScoreboardManager().getNewScoreboard();
-        this.objective = scoreboard.registerNewObjective(player.getName(), "dummy", basePlugin.getBaseStringService().chatColorCodes(this.title));
-        objective.setDisplaySlot(displaySlot);
+        this.objective = scoreboard.registerNewObjective(player.getName(), "dummy", BaseStringUtil.chatColorCodes(this.title));
+        this.objective.setDisplaySlot(displaySlot);
 
-        player.setScoreboard(scoreboard);
-        isShow = true;
+        this.player.setScoreboard(scoreboard);
+        this.isShow = true;
     }
 
     /**
@@ -89,6 +87,8 @@ public abstract class BaseScoreboard<T extends BasePlugin> {
      * @date 2021/2/1 16:22
      */
     public void reload(){
+        this.objective.unregister();
+        this.isShow = false;
         show();
 
         if(showCustom()){
@@ -96,11 +96,29 @@ public abstract class BaseScoreboard<T extends BasePlugin> {
         }
 
         int i = 0;
-        for (Team team : teamList){
-            for (String str : team.getEntries()){
-                getObjective().getScore(str).setScore(++i);
+        for (Map<String, List<String>> module : this.moduleList){
+
+            Iterator<Map.Entry<String, List<String>>> iterator = module.entrySet().iterator();
+            while (iterator.hasNext()){
+                Map.Entry<String, List<String>> entry = iterator.next();
+                String key = entry.getKey();
+                for (String str : entry.getValue()){
+                    //判断长度是否超过40,自动换行
+                    int length = str.length();
+                    if(length > 40){
+                        for(int n=0; n<=length/40; n++){
+                            if(n == length/40){
+                                getObjective().getScore(str.substring(n*39)).setScore(++i);
+                                break;
+                            }
+                            getObjective().getScore(str.substring(n*39, n*39+39)).setScore(++i);
+                        }
+                    }else{
+                        getObjective().getScore(str).setScore(++i);
+                    }
+                }
+                getObjective().getScore(key).setScore(++i);
             }
-            getObjective().getScore(team.getName()).setScore(++i);
         }
 
     }
@@ -116,90 +134,98 @@ public abstract class BaseScoreboard<T extends BasePlugin> {
     protected abstract boolean showCustom();
 
     /**
-     * 增加一个Team
-     * @param teamName team的名字
+     * 增加一个显示模块
+     * @param moduleName 模块的名字
      * @param args 参数（展示用，多个参数默认换行展示）
      * @return boolean
      * @author LW-MrWU
      * @date 2021/2/1 16:24
      */
-    public boolean addTeam(String teamName, String... args){
-        if(player == null || !player.isOnline()){
+    public boolean addModule(String moduleName, String... args){
+        if(this.player == null || !this.player.isOnline()){
             return false;
         }
 
-        if(StringUtils.isEmpty(teamName)){
+        if(StringUtils.isEmpty(moduleName)){
             return false;
         }
 
-        if(teamList.size() >= count){
-            basePlugin.getBaseMessageService().sendMessageByLanguage(player, BaseSysMsgEnum.SCOREBOARD_TEAM_COUNT_EOOR.name(), BaseSysMsgEnum.SCOREBOARD_TEAM_COUNT_EOOR.getValue(), String.valueOf(count));
+        if(this.moduleList.size() >= this.count){
+            this.basePlugin.getBaseMessageService().sendMessageByLanguage(this.player, BaseSysMsgEnum.SCOREBOARD_MODULE_COUNT_EOOR.name(), BaseSysMsgEnum.SCOREBOARD_MODULE_COUNT_EOOR.getValue(), String.valueOf(count));
             return false;
         }
 
-        for (Team team : teamList){
-            if(team.getName().equalsIgnoreCase(teamName)){
-                return false;
-            }
+        if(isContains(moduleName)){
+            return false;
         }
 
-        Team team = getScoreboard().registerNewTeam(teamName);
+        Map<String, List<String>> module = new HashMap<>();
+        List<String> msgList = Lists.newArrayList();
+
         for (int i = args.length-1; i>=0; i--){
-            team.addEntry(args[i]);
+            String str = args[i].trim();
+            msgList.add(str);
         }
-
-        teamList.add(team);
+        module.put(moduleName, msgList);
+        this.moduleList.add(module);
         reload();
         return true;
     }
 
     /**
-     * 删除一个Team
-     * @param teamName team名
+     * 删除一个模块
+     * @param moduleName 模块名
      * @return void
      * @author LW-MrWU
      * @date 2021/2/1 16:25
      */
-    public void delTeam(String teamName){
-        for (Team team : teamList){
-            if(team.getName().equalsIgnoreCase(teamName)){
-                teamList.remove(team);
-                objective.unregister();
-                isShow = false;
-                break;
+    public void delModule(String moduleName){
+        for (Map<String, List<String>> module : this.moduleList) {
+            for (String key : module.keySet()) {
+                if(key.equalsIgnoreCase(moduleName)){
+                    moduleList.remove(module);
+                    reload();
+                    return;
+                }
             }
         }
-        reload();
+    }
+
+    /**
+     * 判断模块是否已存在
+     * @param moduleName 模块名
+     * @return boolean
+     * @author LW-MrWU
+     * @date 2021/2/1 17:30
+     */
+    public boolean isContains(String moduleName){
+        for (Map<String, List<String>> module : this.moduleList){
+            for (String key : module.keySet()){
+                if(key.equalsIgnoreCase(moduleName)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public Scoreboard getScoreboard() {
-        return scoreboard;
+        return this.scoreboard;
     }
 
     public Objective getObjective() {
-        return objective;
+        return this.objective;
     }
 
     public Player getPlayer() {
-        return player;
-    }
-
-    public static void setPlayer(Player p) {
-        player = p;
+        return this.player;
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
-    public static Map<Player, BaseScoreboard> getScoreboardData() {
-        if(scoreboardData == null){
-            scoreboardData = new HashMap<>();
-        }
-        return scoreboardData;
-    }
-
-    public List<Team> getTeamList() {
-        return teamList;
+    public List<Map<String, List<String>>> getModuleList() {
+        return this.moduleList;
     }
 }

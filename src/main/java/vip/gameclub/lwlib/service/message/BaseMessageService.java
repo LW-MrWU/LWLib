@@ -2,6 +2,8 @@ package vip.gameclub.lwlib.service.message;
 
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
 import org.bukkit.command.CommandSender;
+import vip.gameclub.lwlib.service.utils.BasePlayerUtil;
+import vip.gameclub.lwlib.service.utils.BaseStringUtil;
 
 /**
  * 基础消息服务
@@ -47,7 +49,7 @@ public class BaseMessageService {
      * @date 2021/1/28 12:05
      */
     public void sendMessage(CommandSender commandSender,String message) {
-        String remessage = this.basePlugin.getBaseStringService().chatColorCodes(message);
+        String remessage = BaseStringUtil.chatColorCodes(message);
         commandSender.sendMessage(remessage);
     }
 
@@ -63,7 +65,7 @@ public class BaseMessageService {
      */
     public void sendMessageByLanguagePlayerId(String playerId, String key, String defualt, String ...prms) {
         String language = basePlugin.getBaseLanguageService().getLanguage(key, defualt, prms);
-        sendMessage(basePlugin.getBasePlayerService().getPlayer(playerId),language);
+        sendMessage(BasePlayerUtil.getPlayer(playerId),language);
     }
 
     /**
@@ -75,7 +77,7 @@ public class BaseMessageService {
      * @date 2021/1/28 12:05
      */
     public void sendMessageByPlayerId(String playerId, String message) {
-        String remessage = this.basePlugin.getBaseStringService().chatColorCodes(message);
-        basePlugin.getBasePlayerService().getPlayer(playerId).sendMessage(remessage);
+        String remessage = BaseStringUtil.chatColorCodes(message);
+        BasePlayerUtil.getPlayer(playerId).sendMessage(remessage);
     }
 }

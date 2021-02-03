@@ -1,6 +1,7 @@
 package vip.gameclub.lwlib.service.log;
 
 import vip.gameclub.lwlib.service.plugin.BasePlugin;
+import vip.gameclub.lwlib.service.utils.BaseStringUtil;
 
 /**
  * 基础日志服务
@@ -29,7 +30,7 @@ public class BaseLogService {
      * @date 2021/1/28 12:02
      */
     public void info(String log){
-        String reLog = this.basePlugin.getBaseStringService().chatColorCodes(log);
+        String reLog = BaseStringUtil.chatColorCodes(log);
         this.basePlugin.getLogger().info(reLog);
     }
 
@@ -41,7 +42,7 @@ public class BaseLogService {
      * @date 2021/1/28 12:02
      */
     public void warning(String log){
-        String reLog = this.basePlugin.getBaseStringService().chatColorCodes(log);
+        String reLog = BaseStringUtil.chatColorCodes(log);
         this.basePlugin.getLogger().warning(reLog);
     }
 

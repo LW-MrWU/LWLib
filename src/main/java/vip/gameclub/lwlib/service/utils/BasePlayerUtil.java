@@ -1,7 +1,6 @@
 package vip.gameclub.lwlib.service.utils;
 
 import org.bukkit.Bukkit;
-import vip.gameclub.lwlib.service.plugin.BasePlugin;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -15,20 +14,7 @@ import java.util.UUID;
  * @author LW-MrWU
  * @date 创建时间 2021/1/24 16:03
  */
-public class BasePlayerService {
-    protected BasePlugin basePlugin;
-
-    /**
-     * 构造函数
-     * @param basePlugin 启动主类
-     * @return
-     * @author LW-MrWU
-     * @date 2021/1/28 12:12
-     */
-    public BasePlayerService(BasePlugin basePlugin){
-        this.basePlugin = basePlugin;
-    }
-
+public class BasePlayerUtil {
     /**
      * 获取在线玩家列表
      * @param
@@ -36,9 +22,9 @@ public class BasePlayerService {
      * @author LW-MrWU
      * @date 2021/1/28 12:12
      */
-    public List<Player> getOnlinePlayerList(){
+    public static List<Player> getOnlinePlayerList(){
         List<Player> playerList = new ArrayList<>();
-        Object[] objs = this.basePlugin.getServer().getOnlinePlayers().toArray();
+        Object[] objs = Bukkit.getOnlinePlayers().toArray();
         for (Object obj : objs){
             Player player = (Player)obj;
             playerList.add(player);
@@ -53,9 +39,9 @@ public class BasePlayerService {
      * @author LW-MrWU
      * @date 2021/1/28 12:12
      */
-    public List<OfflinePlayer> getOfflinePlayerList(){
+    public static List<OfflinePlayer> getOfflinePlayerList(){
         List<OfflinePlayer> offlinePlayerList = new ArrayList<>();
-        OfflinePlayer[] offlinePlayers = this.basePlugin.getServer().getOfflinePlayers();
+        OfflinePlayer[] offlinePlayers = Bukkit.getOfflinePlayers();
 
         if(offlinePlayers != null && offlinePlayers.length > 0){
             offlinePlayerList = Arrays.asList(offlinePlayers);
@@ -71,7 +57,7 @@ public class BasePlayerService {
      * @author LW-MrWU
      * @date 2021/1/30 15:49
      */
-    public String getID(Player player) {
+    public static String getID(Player player) {
         return player.getUniqueId().toString();
     }
 
@@ -82,8 +68,8 @@ public class BasePlayerService {
      * @author LW-MrWU
      * @date 2021/1/30 15:51
      */
-    public Player getPlayer(String playerID) {
-        return this.basePlugin.getServer().getPlayer(UUID.fromString(playerID));
+    public static Player getPlayer(String playerID) {
+        return Bukkit.getPlayer(UUID.fromString(playerID));
     }
 
     /**
@@ -93,8 +79,8 @@ public class BasePlayerService {
      * @author LW-MrWU
      * @date 2021/1/30 15:53
      */
-    public String getID(String name) {
-        return this.basePlugin.getServer().getOfflinePlayer(name).getUniqueId().toString();
+    public static String getID(String name) {
+        return Bukkit.getOfflinePlayer(name).getUniqueId().toString();
     }
 
     /**
@@ -104,7 +90,7 @@ public class BasePlayerService {
      * @author LW-MrWU
      * @date 2021/1/30 15:53
      */
-    public String getName(String playerID) {
-        return playerID == null ? null : this.basePlugin.getServer().getOfflinePlayer(UUID.fromString(playerID)).getName();
+    public static String getName(String playerID) {
+        return playerID == null ? null : Bukkit.getOfflinePlayer(UUID.fromString(playerID)).getName();
     }
 }
