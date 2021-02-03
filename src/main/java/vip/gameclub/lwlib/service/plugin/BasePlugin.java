@@ -1,6 +1,5 @@
 package vip.gameclub.lwlib.service.plugin;
 
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.ServicePriority;
 import vip.gameclub.lwlib.event.BaseEvent;
 import vip.gameclub.lwlib.listener.BaseListener;
@@ -16,10 +15,7 @@ import vip.gameclub.lwlib.service.message.BaseMessageService;
 import org.bukkit.Server;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import vip.gameclub.lwlib.service.scoreboard.BaseScoreboardService;
 
 /**
  * 插件启动类父类服务
@@ -36,11 +32,10 @@ public abstract class BasePlugin extends JavaPlugin {
 
     private BaseMessageService baseMessageService;
 
+    private BaseScoreboardService baseScoreboardService;
+
     //mysql
     private BaseMysqlService baseMysqlService;
-
-    //记分板数据类
-    private Map<Player, BaseScoreboard> scoreboardData;
 
     /**
      * 初始化服务
@@ -54,6 +49,7 @@ public abstract class BasePlugin extends JavaPlugin {
         baseConfigService = new BaseConfigService(this);
         baseLanguageService = new BaseLanguageService(this);
         baseMessageService = new BaseMessageService(this);
+        baseScoreboardService = new BaseScoreboardService(this);
 
         baseMysqlService = new BaseMysqlService(this);
     }
@@ -173,6 +169,17 @@ public abstract class BasePlugin extends JavaPlugin {
     }
 
     /**
+     * 注册记分板
+     * @param scoreboard
+     * @return void
+     * @author LW-MrWU
+     * @date 2021/2/3 15:05
+     */
+    public <T extends BaseScoreboard> void registerScoreboard(T scoreboard) {
+        getBaseScoreboardService().addScoreboard(scoreboard);
+    }
+
+    /**
      * 获取服务server
      * @param
      * @return org.bukkit.Server
@@ -181,38 +188,6 @@ public abstract class BasePlugin extends JavaPlugin {
      */
     public Server getBaseServer(){
         return this.getServer();
-    }
-
-    /**
-     * 注册记分板
-     * @param  1
-     * @return java.util.Map<org.bukkit.entity.Player,vip.gameclub.lwlib.model.scoreboard.BaseScoreboard>
-     * @author LW-MrWU
-     * @date 2021/2/2 22:52
-     */
-    public <T extends BaseScoreboard> Map<Player, BaseScoreboard> registerScoreboard(T scoreboard) {
-        if(scoreboardData == null){
-            scoreboardData = new HashMap<>();
-        }else{
-            Iterator<Map.Entry<Player, BaseScoreboard>> entryIterator = scoreboardData.entrySet().iterator();
-            while (entryIterator.hasNext()){
-                Map.Entry<Player, ?> entry = entryIterator.next();
-                Player player = entry.getKey();
-                BaseScoreboard baseScoreboard = (BaseScoreboard)entry.getValue();
-                System.out.println("getScoreboardDataPlayer:"+player.getName());
-                System.out.println("baseScoreboard:"+baseScoreboard);
-                System.out.println("getScoreboardDatabaseScoreboardPlayer:"+baseScoreboard.getPlayer().getName());
-            }
-        }
-        scoreboardData.put(scoreboard.getPlayer(), scoreboard);
-        return scoreboardData;
-    }
-
-    public <T extends BaseScoreboard> T getScoreBoard(Player player){
-        if(scoreboardData == null){
-            scoreboardData = new HashMap<>();
-        }
-        return (T) scoreboardData.get(player);
     }
 
     /**
@@ -257,6 +232,17 @@ public abstract class BasePlugin extends JavaPlugin {
      */
     public BaseMessageService getBaseMessageService() {
         return baseMessageService;
+    }
+
+    /**
+     * 获取基础计分板服务
+     * @param
+     * @return vip.gameclub.lwlib.service.scoreboard.BaseScoreboardService
+     * @author LW-MrWU
+     * @date 2021/2/3 15:04
+     */
+    public BaseScoreboardService getBaseScoreboardService() {
+        return baseScoreboardService;
     }
 
     /**
