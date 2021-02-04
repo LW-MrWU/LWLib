@@ -46,7 +46,27 @@ public enum BaseSysMsgEnum {
     /**
      * scoreboard 显示模块超过限制数量
      */
-    SCOREBOARD_MODULE_COUNT_EOOR("&escoreboard module quantity exceeding limit:{0}");
+    SCOREBOARD_MODULE_COUNT_EOOR("&escoreboard module quantity exceeding limit:{0}"),
+    /**
+     * inventory 容器欢迎语句
+     */
+    INVENTORY_MSG_WELCOME("&fThank you for using &cLWLib"),
+    /**
+     * inventory 容器关闭
+     */
+    INVENTORY_MSG_CLOSE("&cClose"),
+    /**
+     * inventory 容器上一页
+     */
+    INVENTORY_MSG_PRE("&ePre page"),
+    /**
+     * inventory 容器下一页
+     */
+    INVENTORY_MSG_NEXT("&bNext page"),
+    /**
+     * inventory 容器页数
+     */
+    INVENTORY_MSG_PAGE("&dPage {0}");
 
     private String value;
 
