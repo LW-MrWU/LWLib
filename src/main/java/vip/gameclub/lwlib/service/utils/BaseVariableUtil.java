@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class BaseVariableUtil {
     public static String getVariable(String str, String keyWord){
-        String regex = "\\$\\{(?<var>.*?)" + keyWord + "\\}";
+        String regex = "%(?<var>.*?)" + keyWord + "%";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
         if(matcher.find()){
@@ -27,7 +27,7 @@ public class BaseVariableUtil {
     }
 
     public static String replaceVariable(String str, String keyWord, String value){
-        String regex = "\\$\\{(?<var>.*?)" + keyWord + "\\}";
+        String regex = "%(?<var>.*?)" + keyWord + "%";
         String strNew = str.replaceAll(regex, value);
         return strNew;
     }
